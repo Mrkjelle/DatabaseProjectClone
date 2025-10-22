@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 
 namespace DatabaseClient.Data
@@ -21,7 +22,7 @@ namespace DatabaseClient.Data
             }
 
             return _config!.GetConnectionString(name)
-            ?? throw new InvalidOperationException($"Connection string '{name}' not found.");
+                ?? throw new InvalidOperationException($"Connection string '{name}' not found.");
         }
     }
 }

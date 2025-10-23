@@ -293,8 +293,5 @@ public class CrossRepository : BaseRepository
                 ex
             );
         }
-
     }
-
-
 }

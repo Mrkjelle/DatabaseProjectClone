@@ -112,6 +112,16 @@ public class OrgRepository : BaseRepository
         EnsureConnection();
         try
         {
+            var existingEmployee = GetEmployeeById(employee.EmpID);
+            if (existingEmployee == null)
+            {
+                throw new KeyNotFoundException(
+                    $"Employee with ID {employee.EmpID} not found for update."
+                );
+            }
+
+            bool divisionChanged = existingEmployee.DivisionID != employee.DivisionID;
+
             SqlServerConnection.ExecuteStoredProcedureSimple(
                 _primaryConnectionString,
                 "UpdateEmployee",
@@ -123,6 +133,15 @@ public class OrgRepository : BaseRepository
                 new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", employee.DivisionID),
                 new Microsoft.Data.SqlClient.SqlParameter("@HireDate", employee.HireDate)
             );
+            if (divisionChanged)
+            {
+                var crossRepo = new CrossRepository();
+                crossRepo.HandleEmployeeDivisionChange(
+                    employee.EmpID,
+                    existingEmployee.DivisionID,
+                    employee.DivisionID
+                );
+            }
         }
         catch (Exception ex)
         {
@@ -276,5 +295,5 @@ public class OrgRepository : BaseRepository
             throw new DataException("Error deleting division.", ex);
         }
     }
-    
+
 }

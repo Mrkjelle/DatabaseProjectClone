@@ -90,7 +90,7 @@ public class OrgRepository
     }
 
     // 3. Adds new Employee to database
-    public void AddEmployee(Employee employee)
+    public int AddEmployee(Employee employee)
     {
         if (string.IsNullOrWhiteSpace(_connectionString))
         {
@@ -98,7 +98,7 @@ public class OrgRepository
         }
         try
         {
-            SqlServerConnection.ExecuteStoredProcedure(
+            var result = SqlServerConnection.ExecuteStoredProcedureScalar(
                 _connectionString,
                 "AddEmployee",
                 new Microsoft.Data.SqlClient.SqlParameter("@EmployeeNO", employee.EmployeeNO),
@@ -108,6 +108,10 @@ public class OrgRepository
                 new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", employee.DivisionID),
                 new Microsoft.Data.SqlClient.SqlParameter("@HireDate", employee.HireDate)
             );
+            int newId = Convert.ToInt32(result);
+            employee.EmpID = newId;
+
+            return newId;
         }
         catch (Exception ex)
         {

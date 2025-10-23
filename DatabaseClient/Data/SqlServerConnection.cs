@@ -38,6 +38,7 @@ public static class SqlServerConnection
             throw new DataException("Stored procedure execution failed.", ex);
         }
     }
+
     public static SqlDataReader ExecuteStoredProcedureReader(
         string connectionString,
         string storedProcedureName,

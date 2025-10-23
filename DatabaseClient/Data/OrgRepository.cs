@@ -119,4 +119,34 @@ public class OrgRepository
             throw new DataException("Error adding new employee.", ex);
         }
     }
+
+    // 4. Update existing Employee in database
+    public void UpdateEmployee(Employee employee)
+    {
+        if (string.IsNullOrWhiteSpace(_connectionString))
+        {
+            throw new InvalidOperationException("Connection string is not initialized.");
+        }
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedure(
+                _connectionString,
+                "UpdateEmployee",
+                new Microsoft.Data.SqlClient.SqlParameter("@EmpID", employee.EmpID),
+                new Microsoft.Data.SqlClient.SqlParameter("@EmployeeNO", employee.EmployeeNO),
+                new Microsoft.Data.SqlClient.SqlParameter("@FirstName", employee.FirstName),
+                new Microsoft.Data.SqlClient.SqlParameter("@LastName", employee.LastName),
+                new Microsoft.Data.SqlClient.SqlParameter("@Email", employee.Email),
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", employee.DivisionID),
+                new Microsoft.Data.SqlClient.SqlParameter("@HireDate", employee.HireDate)
+            );
+
+        }
+        catch (Exception ex)
+        {
+            // Log exception (not implemented here)
+            throw new DataException("Error updating employee.", ex);
+        }
+    }
 }
+

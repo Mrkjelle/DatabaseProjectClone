@@ -180,4 +180,34 @@ public class OrgRepository : BaseRepository
             throw new DataException("Error retrieving divisions.", ex);
         }
     }
+
+    public Division GetDivisionById(int divisionId)
+    {
+        EnsureConnection();
+        try
+        {
+            using var reader = SqlServerConnection.ExecuteStoredProcedureReader(
+                _primaryConnectionString,
+                "GetDivisionById",
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", divisionId)
+            );
+            if (reader == null || !reader.Read())
+            {
+                throw new KeyNotFoundException($"Division with ID {divisionId} not found.");
+            }
+            return new Division
+            {
+                DivisionID = reader.GetInt32(reader.GetOrdinal("DivisionID")),
+                DivisionCode = reader["DivisionCode"] as string ?? string.Empty,
+                DivisionName = reader["DivisionName"] as string ?? string.Empty,
+                Location = reader["Location"] as string ?? string.Empty,
+            };
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error retrieving division.", ex);
+        }
+    }
+    
 }

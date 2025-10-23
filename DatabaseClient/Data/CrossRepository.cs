@@ -294,4 +294,69 @@ public class CrossRepository : BaseRepository
             );
         }
     }
+
+    public EmployeeProject GetEmployeeProject(int ProjectFK, int EmployeeFK)
+    {
+        EnsureBothConnections();
+        try
+        {
+            using var reader = SqlServerConnection.ExecuteStoredProcedureReader(
+                _projectConnection,
+                "GetEmployeeProject",
+                new Microsoft.Data.SqlClient.SqlParameter("@ProjectFK", ProjectFK),
+                new Microsoft.Data.SqlClient.SqlParameter("@EmployeeFK", EmployeeFK)
+            );
+
+            if (reader == null || !reader.Read())
+            {
+                throw new DataException("No data returned from the database.");
+            }
+
+            return new EmployeeProject
+            {
+                EmpProjID = reader.GetInt32(reader.GetOrdinal("EmpProjID")),
+                EmpFK = reader.GetInt32(reader.GetOrdinal("EmpFK")),
+                ProjectFK = reader.GetInt32(reader.GetOrdinal("ProjectFK")),
+                Role = reader.GetString(reader.GetOrdinal("Role")),
+                HoursWorked = reader.GetDecimal(reader.GetOrdinal("HoursWorked")),
+            };
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error retrieving EmployeeProject for EmployeeFK {EmployeeFK} and ProjectFK {ProjectFK}.",
+                ex
+            );
+        }
+    }
+
+    public void UpdateEmployeeProject(
+        int ProjectFK,
+        int EmployeeFK,
+        string Role,
+        decimal HoursWorked
+    )
+    {
+        EnsureBothConnections();
+        try
+        {
+            int empProjID = GetEmployeeProject(ProjectFK, EmployeeFK).EmpProjID;
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _projectConnection,
+                "UpdateEmployeeProject",
+                new Microsoft.Data.SqlClient.SqlParameter("@EmpProjID", empProjID),
+                new Microsoft.Data.SqlClient.SqlParameter("@Role", Role),
+                new Microsoft.Data.SqlClient.SqlParameter("@HoursWorked", HoursWorked)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error updating EmployeeProject for EmployeeFK {EmployeeFK} and ProjectFK {ProjectFK}.",
+                ex
+            );
+        }
+    }
 }

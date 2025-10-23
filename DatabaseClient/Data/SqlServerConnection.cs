@@ -66,4 +66,33 @@ public static class SqlServerConnection
             throw new DataException("Stored procedure reader execution failed.", ex);
         }
     }
+
+    public static object? ExecuteStoredProcedureScalar(
+        string connectionString,
+        string storedProcedureName,
+        params SqlParameter[] parameters
+    )
+    {
+        try
+        {
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(storedProcedureName, connection)
+            {
+                CommandType = CommandType.StoredProcedure,
+            };
+
+            if (parameters?.Length > 0)
+            {
+                command.Parameters.AddRange(parameters);
+            }
+
+            connection.Open();
+            return command.ExecuteScalar();
+        }
+        catch (SqlException ex)
+        {
+            // Log exception (not implemented here)
+            throw new DataException("Stored procedure scalar execution failed.", ex);
+        }
+    }
 }

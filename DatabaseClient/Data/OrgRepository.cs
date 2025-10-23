@@ -16,13 +16,18 @@ public class OrgRepository
         _connectionString = ConfigService.GetConnection("OrgDB");
     }
 
-    // 1. Get all employees
-    public List<Employee> GetEmployees()
+    private void EnsureConnection()
     {
         if (string.IsNullOrWhiteSpace(_connectionString))
         {
             throw new InvalidOperationException("Connection string is not initialized.");
         }
+    }
+
+    // 1. Get all employees
+    public List<Employee> GetEmployees()
+    {
+        EnsureConnection();
         try
         {
             var table = SqlServerConnection.ExecuteStoredProcedure(
@@ -56,10 +61,7 @@ public class OrgRepository
     // 2. Get employee by ID
     public Employee GetEmployeeById(int empId)
     {
-        if (string.IsNullOrWhiteSpace(_connectionString))
-        {
-            throw new InvalidOperationException("Connection string is not initialized.");
-        }
+        EnsureConnection();
         try
         {
             using var reader = SqlServerConnection.ExecuteStoredProcedureReader(
@@ -92,10 +94,7 @@ public class OrgRepository
     // 3. Adds new Employee to database
     public int AddEmployee(Employee employee)
     {
-        if (string.IsNullOrWhiteSpace(_connectionString))
-        {
-            throw new InvalidOperationException("Connection string is not initialized.");
-        }
+        EnsureConnection();
         try
         {
             var result = SqlServerConnection.ExecuteStoredProcedureScalar(
@@ -123,10 +122,7 @@ public class OrgRepository
     // 4. Update existing Employee in database
     public void UpdateEmployee(Employee employee)
     {
-        if (string.IsNullOrWhiteSpace(_connectionString))
-        {
-            throw new InvalidOperationException("Connection string is not initialized.");
-        }
+        EnsureConnection();
         try
         {
             SqlServerConnection.ExecuteStoredProcedure(
@@ -140,7 +136,6 @@ public class OrgRepository
                 new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", employee.DivisionID),
                 new Microsoft.Data.SqlClient.SqlParameter("@HireDate", employee.HireDate)
             );
-
         }
         catch (Exception ex)
         {
@@ -149,4 +144,3 @@ public class OrgRepository
         }
     }
 }
-

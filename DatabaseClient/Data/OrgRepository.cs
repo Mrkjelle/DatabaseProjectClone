@@ -235,4 +235,45 @@ public class OrgRepository : BaseRepository
             throw new DataException("Error adding new division.", ex);
         }
     }
+
+    //9. Update Division
+    public void UpdateDivision(Division division)
+    {
+        EnsureConnection();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "UpdateDivision",
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", division.DivisionID),
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionCode", division.DivisionCode),
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionName", division.DivisionName),
+                new Microsoft.Data.SqlClient.SqlParameter("@Location", division.Location)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error updating division.", ex);
+        }
+    }
+
+    //10. Delete Division
+    public void DeleteDivision(int divisionId)
+    {
+        EnsureConnection();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "DeleteDivision",
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", divisionId)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error deleting division.", ex);
+        }
+    }
 }

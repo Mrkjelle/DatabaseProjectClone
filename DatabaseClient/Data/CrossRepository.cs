@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Transactions;
 using DatabaseClient.Data;
 using DatabaseClient.Models.Org;
 using DatabaseClient.Models.Proj;
@@ -359,18 +360,25 @@ public class CrossRepository : BaseRepository
             );
         }
     }
+
     public void HandleEmployeeDivisionChange(int employeeId, int oldDivisionId, int newDivisionId)
     {
         EnsureBothConnections();
         try
         {
             var currentProjects = GetProjectsByEmployee(employeeId);
+            if (currentProjects == null || currentProjects.Count == 0)
+            {
+                return;
+            }
+
             foreach (var project in currentProjects)
             {
-                var projectDivisions = GetDivisionsForProject(project.ProjectID);
-                bool newDivisionAssigned = projectDivisions.Exists(d =>
+                var divisionsInProject = GetDivisionsForProject(project.ProjectID);
+                bool newDivisionAssigned = divisionsInProject.Exists(d =>
                     d.DivisionID == newDivisionId
                 );
+
                 if (!newDivisionAssigned)
                 {
                     RemoveEmployeeFromProject(project.ProjectID, employeeId);
@@ -381,9 +389,54 @@ public class CrossRepository : BaseRepository
         {
             LogError(ex);
             throw new DataException(
-                $"Error handling division change for employee {employeeId}.",
+                $"Error handling employee division change for employee {employeeId}.",
                 ex
             );
+        }
+    }
+
+    public void UpdateEmployeeWithDivisionCheck(Employee employee)
+    {
+        EnsureBothConnections();
+        var existing = _orgRepo.GetEmployeeById(employee.EmpID);
+        if (existing == null)
+        {
+            throw new KeyNotFoundException(
+                $"Employee with ID {employee.EmpID} not found for update."
+            );
+        }
+
+        bool divisionChanged = existing.DivisionID != employee.DivisionID;
+
+        using var scope = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions
+            {
+                IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted,
+                Timeout = TransactionManager.DefaultTimeout,
+            },
+            TransactionScopeAsyncFlowOption.Enabled
+        );
+
+        try
+        {
+            _orgRepo.UpdateEmployee(employee);
+
+            if (divisionChanged)
+            {
+                HandleEmployeeDivisionChange(
+                    employee.EmpID,
+                    existing.DivisionID,
+                    employee.DivisionID
+                );
+            }
+
+            scope.Complete();
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error updating employee with division check.", ex);
         }
     }
 }

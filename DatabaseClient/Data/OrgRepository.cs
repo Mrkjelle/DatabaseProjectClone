@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Transactions;
 using DatabaseClient.Models.Org;
 
 namespace DatabaseClient.Data;
@@ -110,44 +111,17 @@ public class OrgRepository : BaseRepository
     public void UpdateEmployee(Employee employee)
     {
         EnsureConnection();
-        try
-        {
-            var existingEmployee = GetEmployeeById(employee.EmpID);
-            if (existingEmployee == null)
-            {
-                throw new KeyNotFoundException(
-                    $"Employee with ID {employee.EmpID} not found for update."
-                );
-            }
-
-            bool divisionChanged = existingEmployee.DivisionID != employee.DivisionID;
-
-            SqlServerConnection.ExecuteStoredProcedureSimple(
-                _primaryConnectionString,
-                "UpdateEmployee",
-                new Microsoft.Data.SqlClient.SqlParameter("@EmpID", employee.EmpID),
-                new Microsoft.Data.SqlClient.SqlParameter("@EmployeeNO", employee.EmployeeNO),
-                new Microsoft.Data.SqlClient.SqlParameter("@FirstName", employee.FirstName),
-                new Microsoft.Data.SqlClient.SqlParameter("@LastName", employee.LastName),
-                new Microsoft.Data.SqlClient.SqlParameter("@Email", employee.Email),
-                new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", employee.DivisionID),
-                new Microsoft.Data.SqlClient.SqlParameter("@HireDate", employee.HireDate)
-            );
-            if (divisionChanged)
-            {
-                var crossRepo = new CrossRepository();
-                crossRepo.HandleEmployeeDivisionChange(
-                    employee.EmpID,
-                    existingEmployee.DivisionID,
-                    employee.DivisionID
-                );
-            }
-        }
-        catch (Exception ex)
-        {
-            LogError(ex);
-            throw new DataException("Error updating employee.", ex);
-        }
+        SqlServerConnection.ExecuteStoredProcedureSimple(
+            _primaryConnectionString,
+            "UpdateEmployee",
+            new Microsoft.Data.SqlClient.SqlParameter("@EmpID", employee.EmpID),
+            new Microsoft.Data.SqlClient.SqlParameter("@EmployeeNO", employee.EmployeeNO),
+            new Microsoft.Data.SqlClient.SqlParameter("@FirstName", employee.FirstName),
+            new Microsoft.Data.SqlClient.SqlParameter("@LastName", employee.LastName),
+            new Microsoft.Data.SqlClient.SqlParameter("@Email", employee.Email),
+            new Microsoft.Data.SqlClient.SqlParameter("@DivisionID", employee.DivisionID),
+            new Microsoft.Data.SqlClient.SqlParameter("@HireDate", employee.HireDate)
+        );
     }
 
     // 5. Delete Employee from database
@@ -295,5 +269,4 @@ public class OrgRepository : BaseRepository
             throw new DataException("Error deleting division.", ex);
         }
     }
-
 }

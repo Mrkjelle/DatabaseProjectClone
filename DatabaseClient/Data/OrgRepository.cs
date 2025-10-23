@@ -13,5 +13,7 @@ namespace DatabaseClient.Data
         {
             _connectionString = ConfigService.GetConnection("OrgDB");
         }
+        
+        
     }
 }

@@ -257,6 +257,14 @@ public class OrgRepository : BaseRepository
         EnsureConnection();
         try
         {
+            var projects = new CrossRepository().GetProjectsByDivision(divisionId);
+            if (projects != null && projects.Count > 0)
+            {
+                throw new InvalidOperationException(
+                    $"Cannot delete division with ID {divisionId} because it has associated projects."
+                );
+            }
+
             SqlServerConnection.ExecuteStoredProcedureSimple(
                 _primaryConnectionString,
                 "DeleteDivision",

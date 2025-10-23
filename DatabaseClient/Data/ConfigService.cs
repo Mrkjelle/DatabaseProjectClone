@@ -1,28 +1,27 @@
 using System;
 using Microsoft.Extensions.Configuration;
 
-namespace DatabaseClient.Data
+namespace DatabaseClient.Data;
+
+public static class ConfigService
 {
-    public static class ConfigService
+    private static IConfigurationRoot? _config;
+
+    public static void Initialize()
     {
-        private static IConfigurationRoot? _config;
+        _config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .Build();
+    }
 
-        public static void Initialize()
+    public static string GetConnection(string name)
+    {
+        if (_config == null)
         {
-            _config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            Initialize();
         }
 
-        public static string GetConnection(string name)
-        {
-            if (_config == null)
-            {
-                Initialize();
-            }
-
-            return _config!.GetConnectionString(name)
-                ?? throw new InvalidOperationException($"Connection string '{name}' not found.");
-        }
+        return _config!.GetConnectionString(name)
+            ?? throw new InvalidOperationException($"Connection string '{name}' not found.");
     }
 }

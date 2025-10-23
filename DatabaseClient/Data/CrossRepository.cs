@@ -250,4 +250,51 @@ public class CrossRepository : BaseRepository
             );
         }
     }
+
+    public void RemoveEmployeeFromProject(int ProjectFK, int EmployeeFK)
+    {
+        EnsureBothConnections();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _projectConnection,
+                "RemoveEmployeeFromProject",
+                new Microsoft.Data.SqlClient.SqlParameter("@ProjectFK", ProjectFK),
+                new Microsoft.Data.SqlClient.SqlParameter("@EmployeeFK", EmployeeFK)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error removing employee {EmployeeFK} from project {ProjectFK}.",
+                ex
+            );
+        }
+    }
+
+    public void RemoveDivisionFromProject(int ProjectFK, int DivisionFK)
+    {
+        EnsureBothConnections();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _projectConnection,
+                "RemoveDivisionFromProject",
+                new Microsoft.Data.SqlClient.SqlParameter("@ProjectFK", ProjectFK),
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionFK", DivisionFK)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error removing division {DivisionFK} from project {ProjectFK}.",
+                ex
+            );
+        }
+
+    }
+
+
 }

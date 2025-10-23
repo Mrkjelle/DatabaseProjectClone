@@ -1,4 +1,4 @@
-namespace DatabaseClient.Models;
+namespace DatabaseClient.Models.Org;
 
 public class Division
 {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using DatabaseClient.Models;
+using DatabaseClient.Models.Org;
 
 namespace DatabaseClient.Data;
 

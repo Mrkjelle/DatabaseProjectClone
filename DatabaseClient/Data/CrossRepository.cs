@@ -359,4 +359,31 @@ public class CrossRepository : BaseRepository
             );
         }
     }
+    public void HandleEmployeeDivisionChange(int employeeId, int oldDivisionId, int newDivisionId)
+    {
+        EnsureBothConnections();
+        try
+        {
+            var currentProjects = GetProjectsByEmployee(employeeId);
+            foreach (var project in currentProjects)
+            {
+                var projectDivisions = GetDivisionsForProject(project.ProjectID);
+                bool newDivisionAssigned = projectDivisions.Exists(d =>
+                    d.DivisionID == newDivisionId
+                );
+                if (!newDivisionAssigned)
+                {
+                    RemoveEmployeeFromProject(project.ProjectID, employeeId);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error handling division change for employee {employeeId}.",
+                ex
+            );
+        }
+    }
 }

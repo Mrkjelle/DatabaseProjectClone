@@ -439,4 +439,39 @@ public class CrossRepository : BaseRepository
             throw new DataException("Error updating employee with division check.", ex);
         }
     }
+
+    public void DeleteEmployeeWithCleanup(int employeeId)
+    {
+        EnsureBothConnections();
+        using var scope = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions
+            {
+                IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted,
+                Timeout = TransactionManager.DefaultTimeout,
+            },
+            TransactionScopeAsyncFlowOption.Enabled
+        );
+
+        try
+        {
+            var projects = GetProjectsByEmployee(employeeId);
+            if (projects != null)
+            {
+                foreach (var project in projects)
+                {
+                    RemoveEmployeeFromProject(project.ProjectID, employeeId);
+                }
+            }
+
+            _orgRepo.DeleteEmployee(employeeId);
+
+            scope.Complete();
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error deleting employee with cleanup.", ex);
+        }
+    }
 }

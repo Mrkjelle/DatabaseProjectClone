@@ -17,7 +17,7 @@ public class OrgRepository : BaseRepository
         EnsureConnection();
         try
         {
-            var table = SqlServerConnection.ExecuteStoredProcedure(
+            var table = SqlServerConnection.ExecuteStoredProcedureTable(
                 _connectionString,
                 "GetEmployees"
             );
@@ -112,7 +112,7 @@ public class OrgRepository : BaseRepository
         EnsureConnection();
         try
         {
-            SqlServerConnection.ExecuteStoredProcedure(
+            SqlServerConnection.ExecuteStoredProcedureTable(
                 _connectionString,
                 "UpdateEmployee",
                 new Microsoft.Data.SqlClient.SqlParameter("@EmpID", employee.EmpID),
@@ -128,6 +128,25 @@ public class OrgRepository : BaseRepository
         {
             LogError(ex);
             throw new DataException("Error updating employee.", ex);
+        }
+    }
+
+    // 5. Delete Employee from database
+    public void DeleteEmployee(int empId)
+    {
+        EnsureConnection();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureTable(
+                _connectionString,
+                "DeleteEmployee",
+                new Microsoft.Data.SqlClient.SqlParameter("@EmpID", empId)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error deleting employee.", ex);
         }
     }
 }

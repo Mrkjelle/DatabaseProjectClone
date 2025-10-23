@@ -5,7 +5,7 @@ namespace DatabaseClient.Data;
 
 public static class SqlServerConnection
 {
-    public static DataTable ExecuteStoredProcedure(
+    public static DataTable ExecuteStoredProcedureTable(
         string connectionString,
         string storedProcedureName,
         params SqlParameter[] parameters

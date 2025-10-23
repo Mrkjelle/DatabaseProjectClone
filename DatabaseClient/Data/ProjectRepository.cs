@@ -79,4 +79,82 @@ public class ProjectRepository : BaseRepository
             );
         }
     }
+
+    public int AddProject(Project project)
+    {
+        EnsureConnection();
+        try
+        {
+            var result = SqlServerConnection.ExecuteStoredProcedureScalar(
+                _primaryConnectionString,
+                "AddProject",
+                new SqlParameter("@ProjectCode", project.ProjectCode),
+                new SqlParameter("@ProjectName", project.ProjectName),
+                new SqlParameter("@Budget", project.Budget),
+                new SqlParameter("@StartDate", project.StartDate),
+                new SqlParameter(
+                    "@EndDate",
+                    project.EndDate.HasValue ? (object)project.EndDate.Value : DBNull.Value
+                )
+            );
+            int newProjectId = Convert.ToInt32(result);
+
+            return newProjectId;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error adding new project to the database.", ex);
+        }
+    }
+
+    public void UpdateProject(Project project)
+    {
+        EnsureConnection();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "UpdateProject",
+                new SqlParameter("@ProjectID", project.ProjectID),
+                new SqlParameter("@ProjectCode", project.ProjectCode),
+                new SqlParameter("@ProjectName", project.ProjectName),
+                new SqlParameter("@Budget", project.Budget),
+                new SqlParameter("@StartDate", project.StartDate),
+                new SqlParameter(
+                    "@EndDate",
+                    project.EndDate.HasValue ? (object)project.EndDate.Value : DBNull.Value
+                )
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error updating project with ID {project.ProjectID} in the database.",
+                ex
+            );
+        }
+    }
+
+    public void DeleteProject(int projectId)
+    {
+        EnsureConnection();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "DeleteProject",
+                new SqlParameter("@ProjectID", projectId)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error deleting project with ID {projectId} from the database.",
+                ex
+            );
+        }
+    }
 }

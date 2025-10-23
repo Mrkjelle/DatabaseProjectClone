@@ -5,7 +5,7 @@ namespace DatabaseClient.Data;
 
 public static class SqlServerConnection
 {
-    public static void ExecuteStoredProcedureNoReturn(
+    public static void ExecuteStoredProcedureSimple(
         string connectionString,
         string storedProcedureName,
         params SqlParameter[] parameters
@@ -30,7 +30,10 @@ public static class SqlServerConnection
         catch (SqlException ex)
         {
             // Log exception (not implemented here)
-            throw new DataException("Stored procedure execution failed.", ex);
+            throw new DataException(
+                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureSimple)}.",
+                ex
+            );
         }
     }
 
@@ -64,7 +67,10 @@ public static class SqlServerConnection
         catch (SqlException ex)
         {
             // Log exception (not implemented here)
-            throw new DataException("Stored procedure execution failed.", ex);
+            throw new DataException(
+                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureTable)}.",
+                ex
+            );
         }
     }
 
@@ -93,7 +99,10 @@ public static class SqlServerConnection
         catch (SqlException ex)
         {
             // Log exception (not implemented here)
-            throw new DataException("Stored procedure reader execution failed.", ex);
+            throw new DataException(
+                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureReader)}.",
+                ex
+            );
         }
     }
 
@@ -122,7 +131,10 @@ public static class SqlServerConnection
         catch (SqlException ex)
         {
             // Log exception (not implemented here)
-            throw new DataException("Stored procedure scalar execution failed.", ex);
+            throw new DataException(
+                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureScalar)}.",
+                ex
+            );
         }
     }
 }

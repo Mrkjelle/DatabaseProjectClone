@@ -40,7 +40,7 @@ public class OrgRepository : BaseRepository
         }
         catch (Exception ex)
         {
-            // Log exception (not implemented here)
+            LogError(ex);
             throw new DataException("Error retrieving employees.", ex);
         }
     }
@@ -73,7 +73,7 @@ public class OrgRepository : BaseRepository
         }
         catch (Exception ex)
         {
-            // Log exception (not implemented here)
+            LogError(ex);
             throw new DataException("Error retrieving employee.", ex);
         }
     }
@@ -101,7 +101,7 @@ public class OrgRepository : BaseRepository
         }
         catch (Exception ex)
         {
-            // Log exception (not implemented here)
+            LogError(ex);
             throw new DataException("Error adding new employee.", ex);
         }
     }
@@ -126,7 +126,7 @@ public class OrgRepository : BaseRepository
         }
         catch (Exception ex)
         {
-            // Log exception (not implemented here)
+            LogError(ex);
             throw new DataException("Error updating employee.", ex);
         }
     }

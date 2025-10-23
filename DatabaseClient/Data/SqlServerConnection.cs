@@ -5,6 +5,35 @@ namespace DatabaseClient.Data;
 
 public static class SqlServerConnection
 {
+    public static void ExecuteStoredProcedureNoReturn(
+        string connectionString,
+        string storedProcedureName,
+        params SqlParameter[] parameters
+    )
+    {
+        try
+        {
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(storedProcedureName, connection)
+            {
+                CommandType = CommandType.StoredProcedure,
+            };
+
+            if (parameters?.Length > 0)
+            {
+                command.Parameters.AddRange(parameters);
+            }
+
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
+        catch (SqlException ex)
+        {
+            // Log exception (not implemented here)
+            throw new DataException("Stored procedure execution failed.", ex);
+        }
+    }
+
     public static DataTable ExecuteStoredProcedureTable(
         string connectionString,
         string storedProcedureName,

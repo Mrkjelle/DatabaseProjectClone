@@ -18,7 +18,7 @@ public class OrgRepository : BaseRepository
         try
         {
             var table = SqlServerConnection.ExecuteStoredProcedureTable(
-                _connectionString,
+                _primaryConnectionString,
                 "GetEmployees"
             );
 
@@ -52,7 +52,7 @@ public class OrgRepository : BaseRepository
         try
         {
             using var reader = SqlServerConnection.ExecuteStoredProcedureReader(
-                _connectionString,
+                _primaryConnectionString,
                 "GetEmployeeById",
                 new Microsoft.Data.SqlClient.SqlParameter("@EmpID", empId)
             );
@@ -85,7 +85,7 @@ public class OrgRepository : BaseRepository
         try
         {
             var result = SqlServerConnection.ExecuteStoredProcedureScalar(
-                _connectionString,
+                _primaryConnectionString,
                 "AddEmployee",
                 new Microsoft.Data.SqlClient.SqlParameter("@EmployeeNO", employee.EmployeeNO),
                 new Microsoft.Data.SqlClient.SqlParameter("@FirstName", employee.FirstName),
@@ -112,8 +112,8 @@ public class OrgRepository : BaseRepository
         EnsureConnection();
         try
         {
-            SqlServerConnection.ExecuteStoredProcedureTable(
-                _connectionString,
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
                 "UpdateEmployee",
                 new Microsoft.Data.SqlClient.SqlParameter("@EmpID", employee.EmpID),
                 new Microsoft.Data.SqlClient.SqlParameter("@EmployeeNO", employee.EmployeeNO),
@@ -137,8 +137,8 @@ public class OrgRepository : BaseRepository
         EnsureConnection();
         try
         {
-            SqlServerConnection.ExecuteStoredProcedureTable(
-                _connectionString,
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
                 "DeleteEmployee",
                 new Microsoft.Data.SqlClient.SqlParameter("@EmpID", empId)
             );

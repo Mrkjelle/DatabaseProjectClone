@@ -157,4 +157,25 @@ public class ProjectRepository : BaseRepository
             );
         }
     }
+
+    public void DeleteProjectCascade(int projectId)
+    {
+        EnsureConnection();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "DeleteProjectCascade",
+                new SqlParameter("@ProjectID", projectId)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error deleting project with ID {projectId} from the database.",
+                ex
+            );
+        }
+    }
 }

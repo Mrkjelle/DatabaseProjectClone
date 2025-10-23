@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Transactions;
 using DatabaseClient.Data;
 using DatabaseClient.Models.Org;
@@ -277,14 +278,32 @@ public class CrossRepository : BaseRepository
     public void RemoveDivisionFromProject(int ProjectFK, int DivisionFK)
     {
         EnsureBothConnections();
+        using var scope = new TransactionScope(
+            TransactionScopeOption.Required,
+            new TransactionOptions
+            {
+                IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted,
+                Timeout = TransactionManager.DefaultTimeout,
+            },
+            TransactionScopeAsyncFlowOption.Enabled
+        );
         try
         {
+            var employees = GetEmployeesByProject(ProjectFK);
+            foreach (var emp in employees)
+            {
+                if (emp.DivisionID == DivisionFK)
+                {
+                    RemoveEmployeeFromProject(ProjectFK, emp.EmpID);
+                }
+            }
             SqlServerConnection.ExecuteStoredProcedureSimple(
                 _projectConnection,
                 "RemoveDivisionFromProject",
                 new Microsoft.Data.SqlClient.SqlParameter("@ProjectFK", ProjectFK),
                 new Microsoft.Data.SqlClient.SqlParameter("@DivisionFK", DivisionFK)
             );
+            scope.Complete();
         }
         catch (Exception ex)
         {

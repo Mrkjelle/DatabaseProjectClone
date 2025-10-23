@@ -9,8 +9,10 @@ public abstract class BaseRepository
 
     protected BaseRepository(string connectionString)
     {
-        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        _connectionString =
+            connectionString ?? throw new ArgumentNullException(nameof(connectionString));
     }
+
     protected void EnsureConnection()
     {
         if (string.IsNullOrWhiteSpace(_connectionString))

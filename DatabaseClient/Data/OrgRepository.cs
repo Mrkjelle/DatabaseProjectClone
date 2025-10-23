@@ -181,6 +181,7 @@ public class OrgRepository : BaseRepository
         }
     }
 
+    // 7. Get Division by ID
     public Division GetDivisionById(int divisionId)
     {
         EnsureConnection();
@@ -209,5 +210,29 @@ public class OrgRepository : BaseRepository
             throw new DataException("Error retrieving division.", ex);
         }
     }
-    
+
+    // 8. Add Division
+    public int AddDivision(Division division)
+    {
+        EnsureConnection();
+        try
+        {
+            var result = SqlServerConnection.ExecuteStoredProcedureScalar(
+                _primaryConnectionString,
+                "AddDivision",
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionCode", division.DivisionCode),
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionName", division.DivisionName),
+                new Microsoft.Data.SqlClient.SqlParameter("@Location", division.Location)
+            );
+            int newId = Convert.ToInt32(result);
+            division.DivisionID = newId;
+
+            return newId;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error adding new division.", ex);
+        }
+    }
 }

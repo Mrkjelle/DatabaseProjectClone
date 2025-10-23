@@ -6,23 +6,10 @@ using DatabaseClient.Models;
 
 namespace DatabaseClient.Data;
 
-public class OrgRepository
+public class OrgRepository : BaseRepository
 {
-    // Implementation of OrgRepository
-    private readonly String _connectionString;
-
     public OrgRepository()
-    {
-        _connectionString = ConfigService.GetConnection("OrgDB");
-    }
-
-    private void EnsureConnection()
-    {
-        if (string.IsNullOrWhiteSpace(_connectionString))
-        {
-            throw new InvalidOperationException("Connection string is not initialized.");
-        }
-    }
+        : base(ConfigService.GetConnection("OrgDB")) { }
 
     // 1. Get all employees
     public List<Employee> GetEmployees()

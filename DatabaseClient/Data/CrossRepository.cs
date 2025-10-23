@@ -175,4 +175,79 @@ public class CrossRepository : BaseRepository
             );
         }
     }
+
+    public void AddDivisionToProject(int projectId, int divisionId)
+    {
+        EnsureBothConnections();
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _projectConnection,
+                "AddDivisionToProject",
+                new Microsoft.Data.SqlClient.SqlParameter("@ProjectFK", projectId),
+                new Microsoft.Data.SqlClient.SqlParameter("@DivisionFK", divisionId)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error adding division {divisionId} to project {projectId}.",
+                ex
+            );
+        }
+    }
+
+    public void AddEmployeeToProject(
+        int projectId,
+        int employeeId,
+        string role,
+        decimal hoursWorked
+    )
+    {
+        EnsureBothConnections();
+        try
+        {
+            var employee =
+                _orgRepo.GetEmployeeById(employeeId)
+                ?? throw new KeyNotFoundException($"Employee with ID {employeeId} not found.");
+            var projectDivisions = GetDivisionsForProject(projectId);
+            if (projectDivisions == null || projectDivisions.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    $"Project with ID {projectId} has no associated divisions."
+                );
+            }
+
+            bool isDivisionAssigned = projectDivisions.Exists(d =>
+                d.DivisionID == employee.DivisionID
+            );
+
+            if (!isDivisionAssigned)
+            {
+                throw new InvalidOperationException(
+                    $"Employee's division (ID: {employee.DivisionID}) is not assigned to project {projectId}."
+                        + "\n"
+                        + "Cannot add employee to project."
+                );
+            }
+
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _projectConnection,
+                "AddEmployeeToProject",
+                new Microsoft.Data.SqlClient.SqlParameter("@ProjectFK", projectId),
+                new Microsoft.Data.SqlClient.SqlParameter("@EmployeeFK", employeeId),
+                new Microsoft.Data.SqlClient.SqlParameter("@Role", role),
+                new Microsoft.Data.SqlClient.SqlParameter("@HoursWorked", hoursWorked)
+            );
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException(
+                $"Error adding employee {employeeId} to project {projectId}.",
+                ex
+            );
+        }
+    }
 }

@@ -13,7 +13,7 @@
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                FontSize="20"
+                FontSize="32"
                 FontWeight="Bold"
                 Foreground="rgba(180, 21, 29, 1)"
                 Text="MINION AUTHENTICATION" />
@@ -37,7 +37,11 @@
                 Text="{Binding Password}"
                 Watermark="Password" />
             <Button
-                Width="250"
+                Width="100"
+                Height="35"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Background="rgba(180,21,29,1)"
                 BorderBrush="rgba(180,21,29,1)"
                 BorderThickness="1"
@@ -49,7 +53,11 @@
                     </Style>
                 </Button.Styles>
                 <Button.Content>
-                    LOGIN
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="LOGIN"
+                        TextAlignment="Center" />
                 </Button.Content>
             </Button>
         </StackPanel>

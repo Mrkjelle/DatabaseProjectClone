@@ -3,6 +3,7 @@
         xmlns:views="clr-namespace:DatabaseClient.Views"
         xmlns:vm="clr-namespace:DatabaseClient.ViewModels"
         x:Class="DatabaseClient.Views.LoginWindow"
+        x:DataType="vm:LoginViewModel"
         Width="450" Height="350"
         Title="Login">
 

@@ -1,8 +1,10 @@
-using ReactiveUI;
+using System.Linq;
 using System.Reactive;
-using Avalonia.Controls;
-using DatabaseClient.Views;
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using DatabaseClient.Views;
+using ReactiveUI;
 
 namespace DatabaseClient.ViewModels
 {
@@ -32,14 +34,22 @@ namespace DatabaseClient.ViewModels
 
         private void DoLogin()
         {
-            // later you'll swap windows here
+            // show main window
             var main = new Views.MainWindow();
             main.Show();
 
-            foreach (Window w in Application.Current.Windows)
+            // close the login window(s) via the desktop lifetime
+            if (
+                Application.Current?.ApplicationLifetime
+                is IClassicDesktopStyleApplicationLifetime lifetime
+            )
             {
-                if (w is Views.LoginWindow)
-                    w.Close();
+                // copy to list to avoid modifying collection while enumerating
+                foreach (Window w in lifetime.Windows.ToList())
+                {
+                    if (w is Views.LoginWindow)
+                        w.Close();
+                }
             }
         }
     }

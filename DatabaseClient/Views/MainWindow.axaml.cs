@@ -1,6 +1,7 @@
 using Avalonia.Controls;
+using Avalonia;
 
-namespace DatabaseClient;
+namespace DatabaseClient.Views;
 
 public partial class MainWindow : Window
 {

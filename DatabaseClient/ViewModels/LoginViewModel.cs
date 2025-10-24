@@ -7,7 +7,9 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
 using Avalonia.Threading;
 using DatabaseClient.Views;
-using MessageBox.Avalonia;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 using ReactiveUI;
 
 namespace DatabaseClient.ViewModels
@@ -44,10 +46,8 @@ namespace DatabaseClient.ViewModels
 
         private void DoLogin()
         {
-            // very basic credential check
             if (Username == "admin" && Password == "admin")
             {
-                // open the main window
                 if (
                     Application.Current?.ApplicationLifetime
                     is IClassicDesktopStyleApplicationLifetime lifetime
@@ -56,17 +56,24 @@ namespace DatabaseClient.ViewModels
                     var main = new Views.MainWindow();
                     main.Show();
 
-                    // close the login window
                     var login = lifetime.Windows.FirstOrDefault(w => w is Views.LoginWindow);
                     login?.Close();
                 }
             }
             else
             {
-                // feedback: invalid credentials
-                MessageBoxManager
-                    .GetMessageBoxStandardWindow("Access Denied", "Invalid username or password.")
-                    .Show();
+                var messageBox = MessageBoxManager.GetMessageBoxStandard(
+                    new MessageBoxStandardParams
+                    {
+                        ContentTitle = "Access Denied",
+                        ContentMessage = "Invalid username or password.",
+                        ButtonDefinitions = ButtonEnum.Ok,
+                        Icon = Icon.Error,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    }
+                );
+
+                messageBox.ShowAsync();
             }
         }
     }

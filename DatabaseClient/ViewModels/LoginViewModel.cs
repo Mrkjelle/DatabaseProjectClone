@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Reactive;
 using Avalonia;
@@ -34,22 +35,32 @@ namespace DatabaseClient.ViewModels
 
         private void DoLogin()
         {
-            // show main window
-            var main = new Views.MainWindow();
-            main.Show();
-
-            // close the login window(s) via the desktop lifetime
-            if (
-                Application.Current?.ApplicationLifetime
-                is IClassicDesktopStyleApplicationLifetime lifetime
-            )
+            try
             {
-                // copy to list to avoid modifying collection while enumerating
-                foreach (Window w in lifetime.Windows.ToList())
+                if (
+                    Application.Current?.ApplicationLifetime
+                    is IClassicDesktopStyleApplicationLifetime lifetime
+                )
                 {
-                    if (w is Views.LoginWindow)
-                        w.Close();
+                    Console.WriteLine("Creating MainWindow...");
+                    var main = new Views.MainWindow();
+                    Console.WriteLine("MainWindow constructed successfully.");
+
+                    lifetime.MainWindow = main;
+                    main.Show();
+                    Console.WriteLine("MainWindow shown.");
+
+                    foreach (var w in lifetime.Windows.ToList())
+                    {
+                        if (w is Views.LoginWindow)
+                            w.Close();
+                    }
+                    Console.WriteLine("Login window closed.");
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception during DoLogin: " + ex);
             }
         }
     }

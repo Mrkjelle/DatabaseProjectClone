@@ -10,6 +10,7 @@ namespace DatabaseClient.Views
         {
             InitializeComponent();
             DataContext = new LoginViewModel();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
     }
 }

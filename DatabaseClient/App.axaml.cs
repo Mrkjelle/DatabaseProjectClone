@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using DatabaseClient.Views;
 
 namespace DatabaseClient;
 
@@ -15,7 +16,8 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new Views.LoginWindow();
+            desktop.MainWindow = new LoginWindow();
+            desktop.MainWindow.Show();
         }
 
         base.OnFrameworkInitializationCompleted();

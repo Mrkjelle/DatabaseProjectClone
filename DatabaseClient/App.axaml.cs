@@ -16,8 +16,9 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new LoginWindow();
-            desktop.MainWindow.Show();
+            // don’t set desktop.MainWindow
+            var login = new LoginWindow();
+            login.Show();
         }
 
         base.OnFrameworkInitializationCompleted();

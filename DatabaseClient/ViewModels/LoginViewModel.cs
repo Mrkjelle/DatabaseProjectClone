@@ -4,7 +4,10 @@ using System.Reactive;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.ReactiveUI;
+using Avalonia.Threading;
 using DatabaseClient.Views;
+using MessageBox.Avalonia;
 using ReactiveUI;
 
 namespace DatabaseClient.ViewModels
@@ -30,37 +33,40 @@ namespace DatabaseClient.ViewModels
 
         public LoginViewModel()
         {
-            LoginCommand = ReactiveCommand.Create(DoLogin);
+            // keep all command notifications on the Avalonia dispatcher
+            RxApp.MainThreadScheduler = AvaloniaScheduler.Instance;
+
+            LoginCommand = ReactiveCommand.Create(
+                DoLogin,
+                outputScheduler: RxApp.MainThreadScheduler
+            );
         }
 
         private void DoLogin()
         {
-            try
+            // very basic credential check
+            if (Username == "admin" && Password == "admin")
             {
+                // open the main window
                 if (
                     Application.Current?.ApplicationLifetime
                     is IClassicDesktopStyleApplicationLifetime lifetime
                 )
                 {
-                    Console.WriteLine("Creating MainWindow...");
                     var main = new Views.MainWindow();
-                    Console.WriteLine("MainWindow constructed successfully.");
-
-                    lifetime.MainWindow = main;
                     main.Show();
-                    Console.WriteLine("MainWindow shown.");
 
-                    foreach (var w in lifetime.Windows.ToList())
-                    {
-                        if (w is Views.LoginWindow)
-                            w.Close();
-                    }
-                    Console.WriteLine("Login window closed.");
+                    // close the login window
+                    var login = lifetime.Windows.FirstOrDefault(w => w is Views.LoginWindow);
+                    login?.Close();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine("Exception during DoLogin: " + ex);
+                // feedback: invalid credentials
+                MessageBoxManager
+                    .GetMessageBoxStandardWindow("Access Denied", "Invalid username or password.")
+                    .Show();
             }
         }
     }

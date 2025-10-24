@@ -1,9 +1,59 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="DatabaseClient.MainWindow"
-        Title="DatabaseClient">
-    Welcome to Avalonia!
+<Window
+    x:Class="DatabaseClient.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Organization Dashboard"
+    Width="1000"
+    Height="700"
+    Background="#1E1E1E">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" /> 
+            <!--  Sidebar  -->
+            <ColumnDefinition Width="*" />   
+            <!--  Main content  -->
+        </Grid.ColumnDefinitions>
+
+        <!--  Sidebar  -->
+        <Border Padding="20" Background="#2D2D30">
+            <StackPanel>
+                <TextBlock
+                    Margin="0,0,0,20"
+                    FontSize="20"
+                    Foreground="White"
+                    Text="Dashboard" />
+                <Button
+                    Margin="0,5,0,0"
+                    Content="Employees"
+                    Tag="Employees" />
+                <Button
+                    Margin="0,5,0,0"
+                    Content="Divisions"
+                    Tag="Divisions" />
+                <Button
+                    Margin="0,5,0,0"
+                    Content="Projects"
+                    Tag="Projects" />
+                <Button
+                    Margin="0,5,0,0"
+                    Content="Assignments"
+                    Tag="Assignments" />
+            </StackPanel>
+        </Border>
+
+        <!--  Main Content Area  -->
+        <Border
+            Grid.Column="1"
+            Margin="10"
+            Background="#252526"
+            CornerRadius="4">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="24"
+                Foreground="White"
+                Text="Welcome to the dashboard!" />
+        </Border>
+    </Grid>
 </Window>

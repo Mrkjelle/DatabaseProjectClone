@@ -7,7 +7,7 @@ namespace DatabaseClient.ViewModels;
 
 public class EmployeeViewModel
 {
-    public ObservableCollection<Employee> Employees { get; set; } = new();
+    public ObservableCollection<Employee> Employees { get; } = new();
 
     public EmployeeViewModel()
     {
@@ -16,8 +16,22 @@ public class EmployeeViewModel
 
     private void LoadEmployees()
     {
-        OrgRepository orgRepository = new();
-        var employees = orgRepository.GetEmployees();
-        Employees = new ObservableCollection<Employee>(employees);
+        try
+        {
+            var repo = new OrgRepository();
+            var employees = repo.GetEmployees();
+
+            Employees.Clear();
+            foreach (var emp in employees)
+            {
+                Console.WriteLine($"Loading employee: {emp.FirstName} {emp.LastName}");
+                Employees.Add(emp);
+            }
+            Console.WriteLine($"Total employees loaded: {Employees.Count}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading employees: {ex.Message}");
+        }
     }
 }

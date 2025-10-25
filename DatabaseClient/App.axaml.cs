@@ -23,4 +23,16 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
+
+    private static void PreWarmConnections()
+    {
+        try
+        {
+            var orgRepo = new Data.OrgRepository();
+            var projectRepo = new Data.ProjectRepository();
+
+            orgRepo.EnsureConnection();
+            projectRepo.EnsureConnection();
+        }
+    }
 }

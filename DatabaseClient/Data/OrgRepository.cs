@@ -14,6 +14,10 @@ public class OrgRepository : BaseRepository
     {
         Console.WriteLine($"[DEBUG] OrgDB connection: {_primaryConnectionString}");
     }
+    public void WarmUp()
+    {
+        EnsureConnection();
+    }
 
     // 1. Get all employees
     public List<Employee> GetEmployees()

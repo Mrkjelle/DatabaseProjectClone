@@ -6,9 +6,10 @@
         Width="1000"
         Height="800"
         Background="rgba(10,10,10,1)"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowState="FullScreen">
 
-        <Grid ColumnDefinitions="250, *">
+        <Grid ColumnDefinitions="300, *">
                 <!--  Sidebar  -->
                 <Border
                         Grid.Column="0"
@@ -17,28 +18,33 @@
                         <StackPanel Margin="20" Spacing="20">
                                 <TextBlock
                                         HorizontalAlignment="Center"
-                                        FontSize="18"
+                                        FontSize="24"
                                         FontWeight="Bold"
                                         Foreground="rgba(180, 21, 29, 1)"
                                         Text="CorpSys" />
                                 <TextBlock
                                         HorizontalAlignment="Center"
-                                        FontSize="14"
+                                        FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="rgba(180, 21, 29, 1)"
                                         Text="Management Software" />
                                 <TextBlock
-                                        FontSize="10"
+                                        FontSize="16"
                                         Foreground="Gray"
                                         Text="Faceless Evil Inc."
                                         TextAlignment="Center" />
                                 <TextBlock
-                                        FontSize="10"
+                                        FontSize="16"
                                         Foreground="Gray"
-                                        Text="Proud Sponsors of Eclipse, Java Enterprise,"
+                                        Text="Proud Sponsors of Eclipse,"
                                         TextAlignment="Center" />
                                 <TextBlock
-                                        FontSize="10"
+                                        FontSize="16"
+                                        Foreground="Gray"
+                                        Text="Java Enterprise"
+                                        TextAlignment="Center" />
+                                <TextBlock
+                                        FontSize="16"
                                         Foreground="Gray"
                                         Text="and the Nickelback Discography"
                                         TextAlignment="Center" />
@@ -77,10 +83,10 @@
                                         Content="Log Out"
                                         Foreground="White" />
                                 <Separator
+                                        Height="5"
                                         Margin="0,10,0,0"
                                         Background="rgba(180, 21, 29, 1)"
-                                        Opacity="0.75"
-                                        Height="5"/>
+                                        Opacity="0.75" />
                                 <!--  Logo for Evil Corporation  -->
                                 <Image
                                         Width="100"
@@ -88,8 +94,8 @@
                                         Margin="0,20,0,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Source="avares://DatabaseClient/Assets/Images/EvilLogo.png"
-                                        Opacity="0.6" />
+                                        Opacity="0.6"
+                                        Source="avares://DatabaseClient/Assets/Images/EvilLogo.png" />
                         </StackPanel>
                 </Border>
 
@@ -97,11 +103,19 @@
                         Grid.Column="1"
                         Margin="10"
                         Background="#0F0F0F">
-                        <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="Gray"
-                                Text="Select a section from the sidebar." />
+                        <Grid>
+                                <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="Gray"
+                                        Text="Select a section from the sidebar." />
+                                <ContentControl
+                                        x:Name="MainContent"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Background="rgba(37, 37, 38, 1)" />
+                        </Grid>
                 </Border>
         </Grid>
 </Window>

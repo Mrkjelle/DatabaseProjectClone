@@ -12,6 +12,11 @@ public class ProjectRepository : BaseRepository
     public ProjectRepository()
         : base(ConfigService.GetConnection("ProjectDB")) { }
 
+    public void WarmUp()
+    {
+        EnsureConnection();
+    }
+
     public List<Project> GetProjects()
     {
         EnsureConnection();

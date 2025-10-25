@@ -11,7 +11,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
+        this.Opened += (_, _) => LoadView(new EmployeeView());
         ExitButton.Click += (_, _) =>
         {
             if (
@@ -26,12 +26,13 @@ public partial class MainWindow : Window
                 this.Close();
             }
         };
-        EmployeesButton.Click += (_, _) => ShowEmployees();
+        EmployeesButton.Click += (_, _) => LoadView(new EmployeeView());
     }
 
-    private void ShowEmployees()
+    private void LoadView(UserControl view)
     {
-        var employeeView = new EmployeeView();
-        this.Content = employeeView;
+        var content = this.FindControl<ContentControl>("MainContent");
+        if (content != null)
+            content.Content = view;
     }
 }

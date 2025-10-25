@@ -38,6 +38,7 @@ public class OrgRepository : BaseRepository
                         LastName = row.Field<string>("LastName") ?? string.Empty,
                         Email = row.Field<string>("Email") ?? string.Empty,
                         DivisionID = row.Field<int>("DivisionID"),
+                        DivisionCode = row.Field<string>("DivisionCode") ?? string.Empty,
                         HireDate = row.Field<DateTime>("HireDate"),
                     }),
             ];
@@ -72,6 +73,7 @@ public class OrgRepository : BaseRepository
                 LastName = reader["LastName"] as string ?? string.Empty,
                 Email = reader["Email"] as string ?? string.Empty,
                 DivisionID = reader.GetInt32(reader.GetOrdinal("DivisionID")),
+                DivisionCode = reader["DivisionCode"] as string ?? string.Empty,
                 HireDate = reader.GetDateTime(reader.GetOrdinal("HireDate")),
             };
         }

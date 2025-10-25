@@ -31,7 +31,7 @@ namespace DatabaseClient.Views
 
         private void OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.PropertyName == "EmpID")
+            if (e.PropertyName == "EmpID" || e.PropertyName == "DivisionID")
             {
                 e.Cancel = true;
             }

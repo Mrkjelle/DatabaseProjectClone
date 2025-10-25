@@ -9,6 +9,7 @@ public class Employee
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public string DivisionCode { get; set; } = string.Empty;
     public int DivisionID { get; set; }
     public DateTime HireDate { get; set; } = DateTime.MinValue;
 
@@ -21,6 +22,7 @@ public class Employee
         string lastName,
         string email,
         int divisionID,
+        string divisionCode,
         DateTime hireDate
     )
     {
@@ -30,6 +32,7 @@ public class Employee
         LastName = lastName;
         Email = email;
         DivisionID = divisionID;
+        DivisionCode = divisionCode;
         HireDate = hireDate;
     }
 }

@@ -484,3 +484,4 @@ $RECYCLE.BIN/
 *.swp
 DatabaseClient/log.txt
 DatabaseClient/Data/ConfigService.cs
+DatabaseClient/crash.txt

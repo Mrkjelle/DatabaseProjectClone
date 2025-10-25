@@ -10,7 +10,10 @@ namespace DatabaseClient.Data;
 public class OrgRepository : BaseRepository
 {
     public OrgRepository()
-        : base(ConfigService.GetConnection("OrgDB")) { }
+        : base(ConfigService.GetConnection("OrgDB"))
+    {
+        Console.WriteLine($"[DEBUG] OrgDB connection: {_primaryConnectionString}");
+    }
 
     // 1. Get all employees
     public List<Employee> GetEmployees()

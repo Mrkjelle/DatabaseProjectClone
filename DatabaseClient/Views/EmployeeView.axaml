@@ -1,8 +1,7 @@
 <UserControl
-    x:Class="DatabaseClient.Views.EmployeeView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:class="DatabaseClient.Views.EmployeeView">
+    x:Class="DatabaseClient.Views.EmployeeView">
 
     <Grid>
         <StackPanel>

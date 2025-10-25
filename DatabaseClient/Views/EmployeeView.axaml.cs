@@ -2,6 +2,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using DatabaseClient.Models.Org;
 using DatabaseClient.ViewModels;
 
 namespace DatabaseClient.Views
@@ -34,6 +35,18 @@ namespace DatabaseClient.Views
             if (e.PropertyName == "EmpID" || e.PropertyName == "DivisionID")
             {
                 e.Cancel = true;
+            }
+            else if (e.PropertyName == "HireDate")
+            {
+                var dateColumn = new DataGridTextColumn
+                {
+                    Header = "Hire Date",
+                    Binding = new Avalonia.Data.Binding("HireDate")
+                    {
+                        Converter = new Utilities.DateOnlyConverter(),
+                    },
+                };
+                e.Column = dateColumn;
             }
         }
     }

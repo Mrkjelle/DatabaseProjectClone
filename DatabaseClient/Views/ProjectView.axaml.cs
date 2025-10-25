@@ -53,6 +53,18 @@ public partial class ProjectView : UserControl
             };
             e.Column = textColumn;
         }
+        if (e.PropertyName == "StartDate")
+        {
+            var dateColumn = new DataGridTextColumn
+            {
+                Header = "Start Date",
+                Binding = new Avalonia.Data.Binding("StartDate")
+                {
+                    Converter = new Utilities.DateOnlyConverter(),
+                },
+            };
+            e.Column = dateColumn;
+        }
     }
 
     public class NullToOnGoingConverter : IValueConverter
@@ -75,6 +87,7 @@ public partial class ProjectView : UserControl
             }
             return value;
         }
+
         public object? ConvertBack(
             object? value,
             Type targetType,

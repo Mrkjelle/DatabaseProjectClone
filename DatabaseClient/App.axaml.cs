@@ -1,3 +1,6 @@
+using System;
+using System.ComponentModel.Design.Serialization;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -10,6 +13,8 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+
+        _ = Task.Run(PreWarmConnections);
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -31,8 +36,14 @@ public partial class App : Application
             var orgRepo = new Data.OrgRepository();
             var projectRepo = new Data.ProjectRepository();
 
-            orgRepo.EnsureConnection();
-            projectRepo.EnsureConnection();
+            orgRepo.WarmUp();
+            projectRepo.WarmUp();
+
+            Console.WriteLine("[INIT] Connection pools ready");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[INIT ERROR] Failed to pre-warm connections: {ex.Message}");
         }
     }
 }

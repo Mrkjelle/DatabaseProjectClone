@@ -1,40 +1,88 @@
+using System;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using DatabaseClient.ViewModels;
 
-namespace DatabaseClient.Views
+namespace DatabaseClient.Views;
+
+public partial class ProjectView : UserControl
 {
-    public partial class ProjectView : UserControl
+    public ProjectView()
     {
-        public ProjectView()
-        {
-            InitializeComponent();
-            DataContext = new ProjectViewModel();
+        InitializeComponent();
+        DataContext = new ProjectViewModel();
 
-            this.AttachedToVisualTree += OnAttachedToVisualTree;
+        this.AttachedToVisualTree += OnAttachedToVisualTree;
+    }
+
+    private void OnAttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
+    {
+        if (DataContext is ProjectViewModel vm)
+        {
+            var sorted = vm.Projects.OrderBy(proj => proj.ProjectName).ToList();
+            vm.Projects.Clear();
+            foreach (var proj in sorted)
+            {
+                vm.Projects.Add(proj);
+            }
+        }
+    }
+
+    private void OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        if (e.PropertyName == "ProjectID" || e.PropertyName == "DivisionID")
+        {
+            e.Cancel = true;
         }
 
-        private void OnAttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
+        if (e.PropertyName == "EndDate")
         {
-            if (DataContext is ProjectViewModel vm)
+            var textColumn = new DataGridTextColumn
             {
-                var sorted = vm.Projects.OrderBy(proj => proj.ProjectName).ToList();
-                vm.Projects.Clear();
-                foreach (var proj in sorted)
+                Header = "End Date",
+                Binding = new Binding("Endate")
                 {
-                    vm.Projects.Add(proj);
-                }
-            }
+                    Converter = new NullToOnGoingConverter(),
+                    Mode = BindingMode.OneWay,
+                },
+            };
+            e.Column = textColumn;
         }
+    }
 
-        private void OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    public class NullToOnGoingConverter : IValueConverter
+    {
+        public object? Convert(
+            object? value,
+            Type targetType,
+            object? parameter,
+            System.Globalization.CultureInfo culture
+        )
         {
-            if (e.PropertyName == "ProjectID" || e.PropertyName == "DivisionID")
+            if (value == null || value == DBNull.Value)
+                return "In Progress";
+
+            if (value is DateTime dt)
             {
-                e.Cancel = true;
+                if (dt == DateTime.MinValue)
+                    return "In Progress";
+                return dt.ToString("yyyy-MM-dd");
             }
+            return value;
+        }
+        public object? ConvertBack(
+            object? value,
+            Type targetType,
+            object? parameter,
+            System.Globalization.CultureInfo culture
+        )
+        {
+            throw new NotImplementedException();
         }
     }
 }

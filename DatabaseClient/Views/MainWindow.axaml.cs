@@ -28,6 +28,7 @@ public partial class MainWindow : Window
         };
         EmployeesButton.Click += (_, _) => ShowEmployees();
     }
+
     private void ShowEmployees()
     {
         var employeeView = new EmployeeView();

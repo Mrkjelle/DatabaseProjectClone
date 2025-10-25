@@ -45,7 +45,7 @@ public partial class ProjectView : UserControl
             var textColumn = new DataGridTextColumn
             {
                 Header = "End Date",
-                Binding = new Binding("Endate")
+                Binding = new Binding("EndDate")
                 {
                     Converter = new NullToOnGoingConverter(),
                     Mode = BindingMode.OneWay,

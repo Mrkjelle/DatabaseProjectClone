@@ -18,6 +18,7 @@
             Grid.Row="1"
             Margin="10"
             AutoGenerateColumns="True"
+            AutoGeneratingColumn="OnAutoGeneratingColumn"
             GridLinesVisibility="All"
             HeadersVisibility="All"
             IsReadOnly="True"

@@ -23,4 +23,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.10" />
     <AvaloniaResource Include="Assets\Images\**\*.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ViewModels\EmployeeViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ViewModels\EmployeeViewModel.cs" />
+  </ItemGroup>
 </Project>

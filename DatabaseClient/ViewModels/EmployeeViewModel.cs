@@ -1,9 +1,10 @@
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using DatabaseClient.Models;
 using DatabaseClient.Repositories;
-using Avalonia.Controls;
 
 namespace DatabaseClient.ViewModels;
+
 public class EmployeeViewModel
 {
     public ObservableCollection<Employee> Employees { get; set; }

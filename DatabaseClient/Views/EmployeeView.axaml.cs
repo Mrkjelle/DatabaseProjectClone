@@ -8,7 +8,7 @@ namespace DatabaseClient.Views
         public EmployeeView()
         {
             InitializeComponent();
-            DataContext = new ViewModels.EmployeeViewModel();
+            DataContext = new ViewModels.
         }
     }
 }

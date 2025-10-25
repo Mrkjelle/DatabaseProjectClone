@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using DatabaseClient.Views;
 
-
 namespace DatabaseClient.Views;
 
 public partial class MainWindow : Window

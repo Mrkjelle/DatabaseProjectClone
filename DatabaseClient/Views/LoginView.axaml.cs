@@ -1,10 +1,12 @@
 using Avalonia.Controls;
+using DatabaseClient.ViewModels;
 
 namespace DatabaseClient.Views
 {
     public partial class LoginView : UserControl
     {
         private readonly LoginViewModel _viewModel = new();
+
         public LoginView()
         {
             InitializeComponent();
@@ -14,7 +16,7 @@ namespace DatabaseClient.Views
         private void OnLoginClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             var window = this.VisualRoot as Window;
-            _viewModel.DoLogin(window);
+            _viewModel.DoLogin(window!);
         }
     }
 }

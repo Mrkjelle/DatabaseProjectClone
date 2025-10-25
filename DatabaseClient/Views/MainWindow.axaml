@@ -57,6 +57,7 @@
                                         Content="Employees"
                                         Foreground="White" />
                                 <Button
+                                        x:Name="DivisionsButton"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
                                         BorderBrush="Transparent"

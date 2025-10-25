@@ -1,0 +1,25 @@
+<UserControl
+    x:Class="DatabaseClient.Views.DivisionView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:DatabaseClient.ViewModels"
+    x:DataType="vm:DivisionViewModel">
+
+    <Grid Background="rgba(30, 30, 30, 1)" RowDefinitions="Auto,*">
+        <TextBlock
+            Margin="10"
+            FontSize="20"
+            FontWeight="Bold"
+            Foreground="rgba(180, 21, 29, 1)"
+            Text="Corporate Divisions" />
+        <DataGrid
+            x:Name="DivisionGrid"
+            Grid.Row="1"
+            Margin="10"
+            AutoGenerateColumns="True"
+            GridLinesVisibility="All"
+            HeadersVisibility="All"
+            IsReadOnly="True"
+            ItemsSource="{Binding Divisions}" />
+    </Grid>
+</UserControl>

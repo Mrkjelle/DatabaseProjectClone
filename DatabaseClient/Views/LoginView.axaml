@@ -45,7 +45,7 @@
                 Background="rgba(180,21,29,1)"
                 BorderBrush="rgba(180,21,29,1)"
                 BorderThickness="1"
-                Command="{Binding LoginCommand}"
+                Click="OnLoginClick"
                 FontWeight="Bold">
                 <Button.Styles>
                     <Style Selector="Button /template/ ContentPresenter">

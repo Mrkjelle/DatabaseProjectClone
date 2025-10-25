@@ -1,5 +1,92 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+<Window
         x:Class="DatabaseClient.Views.MainWindow"
-        Width="400" Height="300"
-        Title="Test Window" />
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CORP SYS / DASHBOARD"
+        Width="1000"
+        Height="600"
+        Background="rgba(10,10,10,1)"
+        WindowStartupLocation="CenterScreen">
+
+        <Grid ColumnDefinitions="250, *">
+                <!--  Sidebar  -->
+                <Border
+                        Grid.Column="0"
+                        Padding="10.0"
+                        Background="#111">
+                        <StackPanel Margin="20" Spacing="20">
+                                <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="18"
+                                        FontWeight="Bold"
+                                        Foreground="rgba(180, 21, 29, 1)"
+                                        Text="CorpSys" />
+                                <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="rgba(180, 21, 29, 1)"
+                                        Text="Management Software" />
+                                <TextBlock
+                                        FontSize="10"
+                                        Foreground="Gray"
+                                        Text="Faceless Evil Inc."
+                                        TextAlignment="Center" />
+                                <TextBlock
+                                        FontSize="10"
+                                        Foreground="Gray"
+                                        Text="Proud Sponsors of Eclipse, Java Enterprise,"
+                                        TextAlignment="Center" />
+                                <TextBlock
+                                        FontSize="10"
+                                        Foreground="Gray"
+                                        Text="and the Nickelback Discography"
+                                        TextAlignment="Center" />
+
+                                <Button
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Content="Employees"
+                                        Foreground="White" />
+                                <Button
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Content="Divisions"
+                                        Foreground="White" />
+                                <Button
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Content="Projects"
+                                        Foreground="White" />
+                                <Button
+                                        HorizontalAlignment="Stretch"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Content="Assignments"
+                                        Foreground="White" />
+                                <Button
+                                        x:Name="ExitButton"
+                                        Margin="0,40,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Background="#B4151D"
+                                        BorderBrush="#B4151D"
+                                        Content="Log Out"
+                                        Foreground="White" />
+                        </StackPanel>
+                </Border>
+
+                <Border
+                        Grid.Column="1"
+                        Margin="10"
+                        Background="#0F0F0F">
+                        <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="Gray"
+                                Text="Select a section from the sidebar." />
+                </Border>
+        </Grid>
+</Window>

@@ -1,0 +1,24 @@
+System.FormatException: Invalid brush string: '#0A0A0A0'.
+   at Avalonia.Media.Brush.Parse(String s)
+   at Avalonia.Media.BrushConverter.ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, Object value)
+   at DatabaseClient.Views.MainWindow.!XamlIlPopulate(IServiceProvider, MainWindow) in F:\C#Project\ht25-infc20-nullpointerexceptioncrew\DatabaseClient\Views/MainWindow.axaml:line 8
+   at DatabaseClient.Views.MainWindow.!XamlIlPopulateTrampoline(MainWindow)
+   at DatabaseClient.Views.MainWindow.InitializeComponent(Boolean loadXaml, Boolean attachDevTools) in F:\C#Project\ht25-infc20-nullpointerexceptioncrew\DatabaseClient\obj\Debug\net9.0\Avalonia.Generators\Avalonia.Generators.NameGenerator.AvaloniaNameSourceGenerator\DatabaseClient.Views.MainWindow.g.cs:line 25
+   at DatabaseClient.Views.MainWindow..ctor() in F:\C#Project\ht25-infc20-nullpointerexceptioncrew\DatabaseClient\Views\MainWindow.axaml.cs:line 10
+   at DatabaseClient.ViewModels.LoginViewModel.DoLogin() in F:\C#Project\ht25-infc20-nullpointerexceptioncrew\DatabaseClient\ViewModels\LoginViewModel.cs:line 57
+   at System.Threading.Tasks.Task.<>c.<ThrowAsync>b__128_0(Object state)
+   at Avalonia.Threading.SendOrPostCallbackDispatcherOperation.InvokeCore()
+   at Avalonia.Threading.DispatcherOperation.Execute()
+   at Avalonia.Threading.Dispatcher.ExecuteJob(DispatcherOperation job)
+   at Avalonia.Threading.Dispatcher.ExecuteJobsCore(Boolean fromExplicitBackgroundProcessingCallback)
+   at Avalonia.Threading.Dispatcher.Signaled()
+   at Avalonia.Win32.Win32Platform.WndProc(IntPtr hWnd, UInt32 msg, IntPtr wParam, IntPtr lParam)
+   at Avalonia.Win32.Interop.UnmanagedMethods.DispatchMessage(MSG& lpmsg)
+   at Avalonia.Win32.Win32DispatcherImpl.RunLoop(CancellationToken cancellationToken)
+   at Avalonia.Threading.DispatcherFrame.Run(IControlledDispatcherImpl impl)
+   at Avalonia.Threading.Dispatcher.PushFrame(DispatcherFrame frame)
+   at Avalonia.Threading.Dispatcher.MainLoop(CancellationToken cancellationToken)
+   at Avalonia.Controls.ApplicationLifetimes.ClassicDesktopStyleApplicationLifetime.StartCore(String[] args)
+   at Avalonia.Controls.ApplicationLifetimes.ClassicDesktopStyleApplicationLifetime.Start(String[] args)
+   at Avalonia.ClassicDesktopStyleApplicationLifetimeExtensions.StartWithClassicDesktopLifetime(AppBuilder builder, String[] args, Action`1 lifetimeBuilder)
+   at DatabaseClient.Program.Main(String[] args) in F:\C#Project\ht25-infc20-nullpointerexceptioncrew\DatabaseClient\Program.cs:line 23

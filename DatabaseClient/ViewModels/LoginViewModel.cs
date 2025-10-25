@@ -16,64 +16,33 @@ namespace DatabaseClient.ViewModels
 {
     public class LoginViewModel : ReactiveObject
     {
-        private string _username = string.Empty;
-        private string _password = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
-        public string Username
-        {
-            get => _username;
-            set => this.RaiseAndSetIfChanged(ref _username, value);
-        }
-
-        public string Password
-        {
-            get => _password;
-            set => this.RaiseAndSetIfChanged(ref _password, value);
-        }
-
-        public ReactiveCommand<Unit, Unit> LoginCommand { get; }
-
-        public LoginViewModel()
-        {
-            // keep all command notifications on the Avalonia dispatcher
-            RxApp.MainThreadScheduler = AvaloniaScheduler.Instance;
-
-            LoginCommand = ReactiveCommand.Create(
-                DoLogin,
-                outputScheduler: RxApp.MainThreadScheduler
-            );
-        }
-
-        private void DoLogin()
+        public void DoLogin(MainWindow currentWindow)
         {
             if (Username == "admin" && Password == "admin")
             {
                 if (
-                    Application.Current?.ApplicationLifetime
+                    Application.Current?.ApplicationLifetine
                     is IClassicDesktopStyleApplicationLifetime lifetime
                 )
                 {
-                    var main = new Views.MainWindow();
+                    var main = new MainWindow();
+                    lifetime.MainWindow = main;
                     main.Show();
-
-                    var login = lifetime.Windows.FirstOrDefault(w => w is Views.LoginWindow);
-                    login?.Close();
                 }
+                currentWindow.Close();
             }
             else
             {
-                var messageBox = MessageBoxManager.GetMessageBoxStandard(
-                    new MessageBoxStandardParams
-                    {
-                        ContentTitle = "Access Denied",
-                        ContentMessage = "Invalid username or password.",
-                        ButtonDefinitions = ButtonEnum.Ok,
-                        Icon = Icon.Error,
-                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    }
+                var msgBox = MessageBoxManager.GetMessageBoxStandard(
+                    "Access Denied",
+                    "Invalid Credentials",
+                    ButtonEnum.Ok,
+                    Icon.Error
                 );
-
-                messageBox.ShowAsync();
+                _ = msgBox.ShowAsync();
             }
         }
     }

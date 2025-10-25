@@ -44,4 +44,8 @@ public abstract class BaseRepository
     {
         Console.Error.WriteLine($"[{DateTime.UtcNow}] Error: {ex.Message}");
     }
+    public void WarmUp()
+    {
+        SqlServerConnection.PrewarmConnection(_primaryConnectionString);
+    }
 }

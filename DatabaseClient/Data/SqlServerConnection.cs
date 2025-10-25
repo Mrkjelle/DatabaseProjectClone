@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
 
@@ -135,6 +136,25 @@ public static class SqlServerConnection
                 $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureScalar)}.",
                 ex
             );
+        }
+    }
+    public static void PrewarmConnection(string connectionString)
+    {
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new ArgumentException("Connection string cannot be null or empty.", nameof(connectionString));
+        }
+
+        try
+        {
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+            Console.WriteLine("[Init] Connection pre-warmed successfully.");
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine($"[Init Error] Failed to pre-warm connection: {ex.Message}");
+            throw;
         }
     }
 }

@@ -26,5 +26,11 @@ public partial class MainWindow : Window
                 this.Close();
             }
         };
+        EmployeesButton.Click += (_, _) => ShowEmployees();
+    }
+    private void ShowEmployees()
+    {
+        var employeeView = new EmployeeView();
+        this.Content = employeeView;
     }
 }

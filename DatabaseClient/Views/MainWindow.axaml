@@ -44,6 +44,7 @@
                                         TextAlignment="Center" />
 
                                 <Button
+                                        x:Name="EmployeesButton"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
                                         BorderBrush="Transparent"

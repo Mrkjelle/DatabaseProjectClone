@@ -1,9 +1,9 @@
-using Avalonia.Controls;
 using System.Linq;
-using Avalonia.Interactivity;
-using DatabaseClient.ViewModels;
-using DatabaseClient.Models.Org;
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using DatabaseClient.Models.Org;
+using DatabaseClient.ViewModels;
 
 namespace DatabaseClient.Views;
 
@@ -25,6 +25,14 @@ public partial class DivisionView : UserControl
             {
                 vm.Divisions.Add(div);
             }
+        }
+    }
+
+    private void OnAutoGeneratingColumn(object? sender, DataGridAutoGeneratingColumnEventArgs e)
+    {
+        if (e.PropertyName == "EmployeeID" || e.PropertyName == "DivisionID")
+        {
+            e.Cancel = true;
         }
     }
 }

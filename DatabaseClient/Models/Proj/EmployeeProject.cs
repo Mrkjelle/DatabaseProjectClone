@@ -7,6 +7,12 @@ public class EmployeeProject
     public int ProjectFK { get; set; }
     public string Role { get; set; } = string.Empty;
     public decimal HoursWorked { get; set; }
+    public string ProjectCode { get; set; } = string.Empty;
+    public string ProjectName { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string DivisionCode { get; set; } = string.Empty;
+    public int DivisionID { get; set; }
 
     public EmployeeProject() { }
 

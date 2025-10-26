@@ -38,18 +38,18 @@
             AutoGeneratingColumn="OnAutoGeneratingColumn"
             IsReadOnly="True"
             IsVisible="{Binding ShowEmployeeGrid}"
-            ItemsSource="{Binding Employees}" >
-        <DataGrid.ContextMenu>
-            <ContextMenu>
-                <MenuItem Header="Edit Employee" Click="OnEditEmployeeClick" />
-                <MenuItem Header="Delete Employee" Click="OnDeleteEmployeeClick" />
-                <MenuItem Header="Assign to Project" SubmenuOpened="OnAssignProjectSubmenuOpened">
-                <MenuItem.Items>
-                    <MenuItem Header="Loading..." IsEnabled="False"/>
-                </MenuItem.Items>
-                </MenuItem>
-            </ContextMenu>
-        </DataGrid.ContextMenu>
+            ItemsSource="{Binding Employees}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="OnEditEmployeeClick" Header="Edit Employee" />
+                    <MenuItem Click="OnDeleteEmployeeClick" Header="Delete Employee" />
+                    <MenuItem Header="Assign to Project" SubmenuOpened="OnAssignProjectSubmenuOpened">
+                        <MenuItem.Items>
+                            <MenuItem Header="Loading..." IsEnabled="False" />
+                        </MenuItem.Items>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
 
         <Border
@@ -82,8 +82,15 @@
                     Margin="0,10,0,0"
                     FontSize="14"
                     Foreground="White"
-                    Text="Enter Employee Start Date" />
-                <DatePicker SelectedDate="{Binding NewEmployee.HireDate, Converter={StaticResource DateTimeToOffsetConverter}, Mode=TwoWay}" />
+                    Text="Enter Employee Start Date (Dates in the future will be automatically converted to the current date)" />
+                <DatePicker
+                    x:Name="HireDatePicker"
+                    Background="#222"
+                    DayFormat="dd"
+                    Foreground="White"
+                    IsEnabled="True"
+                    MonthFormat="MMMM"
+                    YearFormat="yyyy" />
                 <StackPanel
                     Margin="0,10,0,0"
                     Orientation="Horizontal"

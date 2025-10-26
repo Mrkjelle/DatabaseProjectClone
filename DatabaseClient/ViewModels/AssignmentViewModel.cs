@@ -33,6 +33,7 @@ public class AssignmentViewModel : INotifyPropertyChanged
             }
         }
     }
+
     public AssignmentViewModel()
     {
         LoadEmployeeAssignments();

@@ -70,6 +70,12 @@ public class ProjectRepository : BaseRepository
                         ProjectFK = row.Field<int>("ProjectFK"),
                         Role = row.Field<string>("Role") ?? string.Empty,
                         HoursWorked = row.Field<decimal>("HoursWorked"),
+                        ProjectCode = row.Field<string>("ProjectCode") ?? string.Empty,
+                        ProjectName = row.Field<string>("ProjectName") ?? string.Empty,
+                        FirstName = row.Field<string>("FirstName") ?? string.Empty,
+                        LastName = row.Field<string>("LastName") ?? string.Empty,
+                        DivisionCode = row.Field<string>("DivisionCode") ?? string.Empty,
+                        DivisionID = row.Field<int>("DivisionID"),
                     }),
             ];
         }
@@ -145,6 +151,7 @@ public class ProjectRepository : BaseRepository
         }
         return projects;
     }
+
     public void AddEmployeeToProject(int empId, int projectId, string role, decimal hours)
     {
         try

@@ -60,6 +60,8 @@ namespace DatabaseClient.Views
             {
                 vm.NewEmployee = new Employee { HireDate = DateTime.Today };
                 vm.ShowAddEmployeeForm = true;
+
+                HireDatePicker.SelectedDate = new DateTimeOffset(DateTime.Today);
             }
         }
 
@@ -78,6 +80,10 @@ namespace DatabaseClient.Views
             {
                 try
                 {
+                    if (HireDatePicker.SelectedDate is DateTimeOffset dto)
+                    {
+                        vm.NewEmployee.HireDate = dto.DateTime;
+                    }
                     if (vm.IsEditing)
                     {
                         var repo = new OrgRepository();
@@ -101,7 +107,9 @@ namespace DatabaseClient.Views
                 }
                 catch (Exception ex)
                 {
-                    AppStatus.ShowMessage?.Invoke($"Error saving employee: {ex.Message}");
+                    AppStatus.ShowMessage?.Invoke(
+                        $"Error saving employee: {SqlErrorTranslator.Translate(ex.Message)}"
+                    );
                 }
             }
         }

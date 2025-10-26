@@ -36,7 +36,9 @@ public partial class AssignmentView : UserControl
             e.PropertyName == "EmpFK"
             || e.PropertyName == "ProjectFK"
             || e.PropertyName == "DivisionFK"
+            || e.PropertyName == "DivisionID"
             || e.PropertyName == "DivisionProjectID"
+            || e.PropertyName == "EmpProjID"
         )
         {
             e.Cancel = true;

@@ -43,6 +43,7 @@ public class ProjectRepository : BaseRepository
             throw new DataException("Error retrieving projects.", ex);
         }
     }
+
     public List<EmployeeProject> GetEmployeeProjects()
     {
         EnsureConnection();
@@ -63,7 +64,7 @@ public class ProjectRepository : BaseRepository
                         EmpFK = row.Field<int>("EmpFK"),
                         ProjectFK = row.Field<int>("ProjectFK"),
                         Role = row.Field<string>("Role") ?? string.Empty,
-                        HoursWorked = row.Field<decimal>("HoursWorked"),    
+                        HoursWorked = row.Field<decimal>("HoursWorked"),
                     }),
             ];
         }

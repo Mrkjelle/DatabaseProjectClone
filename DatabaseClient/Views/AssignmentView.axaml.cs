@@ -19,11 +19,11 @@ public partial class AssignmentView : UserControl
     {
         if (DataContext is ViewModels.AssignmentViewModel vm)
         {
-            var sorted = vm.EmployeeProjects.OrderBy(ep => ep.ProjectName).ToList();
-            vm.EmployeeProjects.Clear();
+            var sorted = vm.EmployeeAssignments.OrderBy(ep => ep.EmpFK).ToList();
+            vm.EmployeeAssignments.Clear();
             foreach (var ep in sorted)
             {
-                vm.EmployeeProjects.Add(ep);
+                vm.EmployeeAssignments.Add(ep);
             }
         }
     }

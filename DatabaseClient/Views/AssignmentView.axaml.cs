@@ -35,4 +35,6 @@ public partial class AssignmentView : UserControl
             e.Cancel = true;
         }
     }
+
+    private void OnSwitchToDivisionAssignments(object? sender, RoutedEventArgs e) { }
 }

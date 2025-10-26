@@ -1,7 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
 using DatabaseClient.Data;
-using DatabaseClient.Models.Org;
 using DatabaseClient.Models.Proj;
 
 namespace DatabaseClient.ViewModels;
@@ -25,7 +24,9 @@ public class AssignmentViewModel
             EmployeeAssignments.Clear();
             foreach (var ep in employeeProjects)
             {
-                Console.WriteLine($"Loading employee project: {ep.ProjectFK} for EmployeeID: {ep.EmpFK}");
+                Console.WriteLine(
+                    $"Loading employee project: {ep.ProjectFK} for EmployeeID: {ep.EmpFK}"
+                );
                 EmployeeAssignments.Add(ep);
             }
             Console.WriteLine($"Total employee projects loaded: {EmployeeAssignments.Count}");

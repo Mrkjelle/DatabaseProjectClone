@@ -71,6 +71,7 @@
                                         Content="Projects"
                                         Foreground="White" />
                                 <Button
+                                        x:Name="AssignmentsButton"
                                         HorizontalAlignment="Stretch"
                                         Background="Transparent"
                                         BorderBrush="Transparent"

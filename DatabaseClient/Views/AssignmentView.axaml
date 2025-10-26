@@ -21,6 +21,6 @@
             GridLinesVisibility="All"
             HeadersVisibility="All"
             IsReadOnly="True"
-            ItemsSource="{Binding EmployeeProjects}" />
+            ItemsSource="{Binding EmployeeAssignments}" />
     </Grid>
 </UserControl>

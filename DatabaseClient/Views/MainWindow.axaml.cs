@@ -29,6 +29,7 @@ public partial class MainWindow : Window
         EmployeesButton.Click += (_, _) => LoadView(new EmployeeView());
         DivisionsButton.Click += (_, _) => LoadView(new DivisionView());
         ProjectsButton.Click += (_, _) => LoadView(new ProjectView());
+        AssignmentsButton.Click += (_, _) => LoadView(new AssignmentView());
     }
 
     private void LoadView(UserControl view)

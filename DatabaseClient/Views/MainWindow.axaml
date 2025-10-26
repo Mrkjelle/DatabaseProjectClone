@@ -52,39 +52,23 @@
                                 <Button
                                         x:Name="EmployeesButton"
                                         HorizontalAlignment="Stretch"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Content="Employees"
-                                        Foreground="White" />
+                                        Content="Employees"/>
                                 <Button
                                         x:Name="DivisionsButton"
                                         HorizontalAlignment="Stretch"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Content="Divisions"
-                                        Foreground="White" />
+                                        Content="Divisions"/>
                                 <Button
                                         x:Name="ProjectsButton"
                                         HorizontalAlignment="Stretch"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Content="Projects"
-                                        Foreground="White" />
+                                        Content="Projects"/>
                                 <Button
                                         x:Name="AssignmentsButton"
                                         HorizontalAlignment="Stretch"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Content="Assignments"
-                                        Foreground="White" />
+                                        Content="Assignments"/>
                                 <Button
                                         x:Name="ExitButton"
-                                        Margin="0,40,0,0"
                                         HorizontalAlignment="Stretch"
-                                        Background="#B4151D"
-                                        BorderBrush="#B4151D"
-                                        Content="Log Out"
-                                        Foreground="White" />
+                                        Content="Log Out"/>
                                 <Separator
                                         Height="5"
                                         Margin="0,10,0,0"

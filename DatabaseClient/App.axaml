@@ -42,5 +42,6 @@
             <Setter Property="Foreground" Value="White" />
         </Style>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="Assets/Themes/Styles.axaml" />
     </Application.Styles>
 </Application>

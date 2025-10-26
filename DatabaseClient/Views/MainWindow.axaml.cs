@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using DatabaseClient.ViewModels;
 using DatabaseClient.Views;
 
 namespace DatabaseClient.Views;
@@ -9,6 +10,7 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
+        DataContext = new MainWindowViewModel();
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         this.Opened += (_, _) => LoadView(new EmployeeView());

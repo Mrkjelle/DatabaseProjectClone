@@ -1,8 +1,11 @@
+using System;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using DatabaseClient.Data;
 using DatabaseClient.Models.Org;
+using DatabaseClient.Utilities;
 using DatabaseClient.ViewModels;
 
 namespace DatabaseClient.Views
@@ -49,6 +52,7 @@ namespace DatabaseClient.Views
                 e.Column = dateColumn;
             }
         }
+
         private void OnAddEmployeeClick(object? sender, RoutedEventArgs e)
         {
             if (DataContext is EmployeeViewModel vm)
@@ -57,6 +61,7 @@ namespace DatabaseClient.Views
                 vm.ShowAddEmployeeForm = true;
             }
         }
+
         private void OnCancelAddEmployeeClick(object? sender, RoutedEventArgs e)
         {
             if (DataContext is EmployeeViewModel vm)
@@ -65,9 +70,26 @@ namespace DatabaseClient.Views
                 vm.NewEmployee = new Employee();
             }
         }
+
         private void OnSaveEmployeeClick(object? sender, RoutedEventArgs e)
         {
-            // Implement saving logic here
+            if (DataContext is EmployeeViewModel vm)
+            {
+                try
+                {
+                    var repo = new OrgRepository();
+                    int newEmployeeId = repo.AddEmployee(vm.NewEmployee);
+                    vm.Employees.Add(vm.NewEmployee);
+                    vm.ShowAddEmployeeForm = false;
+                    AppStatus.ShowMessage?.Invoke(
+                        $"Employee added successfully with Internal Database ID: {newEmployeeId}"
+                    );
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error saving employee: {ex.Message}");
+                }
+            }
         }
     }
 }

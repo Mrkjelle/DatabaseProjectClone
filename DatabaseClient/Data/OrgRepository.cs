@@ -49,4 +49,35 @@ public class OrgRepository : BaseRepository
             throw new DataException("Error retrieving employees.", ex);
         }
     }
+
+    // 2. Get Divisions
+    public List<Division> GetDivisions()
+    {
+        EnsureConnection();
+        try
+        {
+            var table = SqlServerConnection.ExecuteStoredProcedureTable(
+                _primaryConnectionString,
+                "GetDivisions"
+            );
+
+            return
+            [
+                .. table
+                    .AsEnumerable()
+                    .Select(row => new Division
+                    {
+                        DivisionID = row.Field<int>("DivisionID"),
+                        DivisionCode = row.Field<string>("DivisionCode") ?? string.Empty,
+                        DivisionName = row.Field<string>("DivisionName") ?? string.Empty,
+                        Location = row.Field<string>("Location") ?? string.Empty,
+                    }),
+            ];
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error retrieving divisions.", ex);
+        }
+    }
 }

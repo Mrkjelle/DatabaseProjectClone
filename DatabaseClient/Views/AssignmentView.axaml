@@ -29,7 +29,7 @@
         </Grid>
 
         <DataGrid
-            x:Name="AssignmentGrid"
+            x:Name="EmployeeAssignmentGrid"
             Grid.Row="1"
             Margin="10"
             AutoGenerateColumns="True"
@@ -37,6 +37,16 @@
             GridLinesVisibility="All"
             HeadersVisibility="All"
             IsReadOnly="True"
-            ItemsSource="{Binding EmployeeAssignments}" />
+            ItemsSource="{Binding EmployeeAssignments}"
+            IsVisible="{Binding !ShowDivisionAssignments}" />
+        
+        <DataGrid
+            x:Name="DivisionAssignmentGrid"
+            Grid.Row="1"
+            Margin="10"
+            AutoGenerateColumns="True"
+            IsReadOnly="True"
+            ItemsSource="{Binding DivisionAssignments}"
+            IsVisible="{Binding ShowDivisionAssignments}" />
     </Grid>
 </UserControl>

@@ -74,4 +74,37 @@ public class ProjectRepository : BaseRepository
             throw new DataException("Error retrieving employee projects.", ex);
         }
     }
+
+    public List<DivisionProject> GetDivisionProjects()
+    {
+        EnsureConnection();
+        try
+        {
+            var table = SqlServerConnection.ExecuteStoredProcedureTable(
+                _primaryConnectionString,
+                "GetDivisionProjects"
+            );
+
+            return
+            [
+                .. table
+                    .AsEnumerable()
+                    .Select(row => new DivisionProject
+                    {
+                        DivisionProjectID = row.Field<int>("DivisionProjectID"),
+                        DivisionFK = row.Field<int>("DivisionFK"),
+                        ProjectFK = row.Field<int>("ProjectFK"),
+                        DivisionCode = row.Field<string>("DivisionCode") ?? string.Empty,
+                        DivisionName = row.Field<string>("DivisionName") ?? string.Empty,
+                        ProjectCode = row.Field<string>("ProjectCode") ?? string.Empty,
+                        ProjectName = row.Field<string>("ProjectName") ?? string.Empty,
+                    }),
+            ];
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error retrieving division projects.", ex);
+        }
+    }
 }

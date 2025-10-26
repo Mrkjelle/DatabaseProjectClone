@@ -13,6 +13,12 @@ public class AssignmentViewModel : INotifyPropertyChanged
     public ObservableCollection<EmployeeProject> EmployeeAssignments { get; } = new();
     public ObservableCollection<DivisionProject> DivisionAssignments { get; } = new();
     private bool _showDivisionAssignments;
+    public string HeaderTitle =>
+        ShowDivisionAssignments ? "Division Assignments" : "Employee Assignments";
+    public string ToggleButtonText =>
+        ShowDivisionAssignments
+            ? "Switch to Employee Assignments"
+            : "Switch to Division Assignments";
     public bool ShowDivisionAssignments
     {
         get => _showDivisionAssignments;

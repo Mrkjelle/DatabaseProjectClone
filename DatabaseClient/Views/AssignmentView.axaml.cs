@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using DatabaseClient.Models.Proj;
+using DatabaseClient.Data;
 using DatabaseClient.ViewModels;
 
 namespace DatabaseClient.Views;
@@ -36,5 +37,20 @@ public partial class AssignmentView : UserControl
         }
     }
 
-    private void OnSwitchToDivisionAssignments(object? sender, RoutedEventArgs e) { }
+    private void OnSwitchToDivisionAssignments(object? sender, RoutedEventArgs e)
+    {
+        if (DataContext is AssignmentViewModel vm)
+        {
+            vm.ShowDivisionAssignments = !vm.ShowDivisionAssignments;
+        }
+        if (vm.ShowDivisionAssignments && vm.DivisionAssignments.Count == 0)
+        {
+            var repo = new ProjectRepository();
+            var divAssignments = repo.GetDivisionProjects();
+            foreach (var da in divAssignments)
+            {
+                vm.DivisionAssignments.Add(da);
+            }
+        }
+    }
 }

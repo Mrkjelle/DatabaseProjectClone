@@ -7,10 +7,7 @@ public abstract class BaseRepository
 {
     protected readonly string _primaryConnectionString;
 
-    protected BaseRepository(
-        string primaryConnectionString,
-        string? secondaryConnectionString = null
-    )
+    protected BaseRepository(string primaryConnectionString)
     {
         _primaryConnectionString =
             primaryConnectionString

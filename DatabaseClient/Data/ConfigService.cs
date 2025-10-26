@@ -12,9 +12,6 @@ public static class ConfigService
         _config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
-        var org = _config.GetConnectionString("OrgDB");
-        
-        Console.WriteLine($"[DEBUG] Loaded OrgDB connection string: {org}");
     }
 
     public static string GetConnection(string name)

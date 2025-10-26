@@ -53,8 +53,8 @@ namespace DatabaseClient.Views
         {
             if (DataContext is EmployeeViewModel vm)
             {
-                vm.ShowAddEmployeeForm = true;
                 vm.NewEmployee = new Employee();
+                vm.ShowAddEmployeeForm = true;
             }
         }
         private void OnCancelAddEmployeeClick(object? sender, RoutedEventArgs e)

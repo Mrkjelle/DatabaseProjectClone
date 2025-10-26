@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using DatabaseClient.Utilities;
 using DatabaseClient.ViewModels;
 using DatabaseClient.Views;
 
@@ -10,9 +11,13 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        DataContext = new MainWindowViewModel();
         InitializeComponent();
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        var vm = new MainWindowViewModel();
+        DataContext = vm;
+
+        GlobalExceptionHandler.Initialize(vm);
+
         this.Opened += (_, _) => LoadView(new EmployeeView());
         ExitButton.Click += (_, _) =>
         {

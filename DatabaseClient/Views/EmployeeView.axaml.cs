@@ -49,5 +49,25 @@ namespace DatabaseClient.Views
                 e.Column = dateColumn;
             }
         }
+        private void OnAddEmployeeClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is EmployeeViewModel vm)
+            {
+                vm.ShowAddEmployeeForm = true;
+                vm.NewEmployee = new Employee();
+            }
+        }
+        private void OnCancelAddEmployeeClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is EmployeeViewModel vm)
+            {
+                vm.ShowAddEmployeeForm = false;
+                vm.NewEmployee = new Employee();
+            }
+        }
+        private void OnSaveEmployeeClick(object? sender, RoutedEventArgs e)
+        {
+            // Implement saving logic here
+        }
     }
 }

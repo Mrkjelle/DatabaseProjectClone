@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -77,25 +78,46 @@ namespace DatabaseClient.Views
             {
                 try
                 {
-                    var repo = new OrgRepository();
-                    int newEmployeeId = repo.AddEmployee(vm.NewEmployee);
-                    vm.Employees.Add(vm.NewEmployee);
+                    if (vm.IsEditing)
+                    {
+                        var repo = new OrgRepository();
+                        repo.UpdateEmployee(vm.NewEmployee);
+                        AppStatus.ShowMessage?.Invoke(
+                            $"Employee {vm.NewEmployee.FirstName} updated successfully."
+                        );
+                    }
+                    else
+                    {
+                        var repo = new OrgRepository();
+                        repo.AddEmployee(vm.NewEmployee);
+                        AppStatus.ShowMessage?.Invoke(
+                            $"Employee {vm.NewEmployee.FirstName} added successfully."
+                        );
+                    }
+
                     vm.ShowAddEmployeeForm = false;
-                    AppStatus.ShowMessage?.Invoke(
-                        $"Employee added successfully with Internal Database ID: {newEmployeeId}"
-                    );
+                    vm.IsEditing = false;
+                    vm.LoadEmployees();
                 }
                 catch (Exception ex)
                 {
-                    var rawMessage = ex.InnerException?.Message ?? ex.Message;
-                    var userMessage = SqlErrorTranslator.Translate(rawMessage);
-                    AppStatus.ShowMessage?.Invoke($"Error saving employee: {userMessage}");
-                    Console.WriteLine($"Error saving employee: {ex.Message}");
+                    AppStatus.ShowMessage?.Invoke($"Error saving employee: {ex.Message}");
                 }
             }
         }
 
-        private void OnEditEmployeeClick(object? sender, RoutedEventArgs e) { }
+        private void OnEditEmployeeClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is EmployeeViewModel vm && EmployeeGrid.SelectedItem is Employee emp)
+            {
+                vm.EditEmployee(emp);
+                AppStatus.ShowMessage?.Invoke($"Editing employee: {emp.FirstName} {emp.LastName}");
+            }
+            else
+            {
+                AppStatus.ShowMessage?.Invoke("No employee selected for editing.");
+            }
+        }
 
         private void OnDeleteEmployeeClick(object? sender, RoutedEventArgs e)
         {
@@ -106,6 +128,74 @@ namespace DatabaseClient.Views
             else
             {
                 AppStatus.ShowMessage?.Invoke("No employee selected for deletion.");
+            }
+        }
+
+        private async void OnAssignProjectSubmenuOpened(object? sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem assignMenu && DataContext is EmployeeViewModel vm)
+            {
+                assignMenu.Items.Clear();
+
+                if (EmployeeGrid.SelectedItem is not Employee emp)
+                {
+                    assignMenu.Items.Add(
+                        new MenuItem { Header = "No employee selected", IsEnabled = false }
+                    );
+                    return;
+                }
+
+                try
+                {
+                    var repo = new ProjectRepository();
+                    var availableProjects = repo.GetAssignableProjectsForEmployee(emp.EmpID);
+
+                    if (availableProjects.Count == 0)
+                    {
+                        assignMenu.Items.Add(
+                            new MenuItem { Header = "No available projects", IsEnabled = false }
+                        );
+                        return;
+                    }
+
+                    foreach (var proj in availableProjects)
+                    {
+                        var item = new MenuItem
+                        {
+                            Header = $"{proj.ProjectCode} - {proj.ProjectName}",
+                            Tag = proj.ProjectID,
+                        };
+
+                        item.Click += (_, _) =>
+                        {
+                            try
+                            {
+                                repo.AddEmployeeToProject(emp.EmpID, proj.ProjectID);
+                                AppStatus.ShowMessage?.Invoke(
+                                    $"Assigned {emp.FirstName} {emp.LastName} to project {proj.ProjectCode}."
+                                );
+                            }
+                            catch (Exception ex)
+                            {
+                                AppStatus.ShowMessage?.Invoke(
+                                    $"Error assigning project: {ex.Message}"
+                                );
+                            }
+                        };
+
+                        assignMenu.Items.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    assignMenu.Items.Add(
+                        new MenuItem
+                        {
+                            Header = $"Error loading projects: {ex.Message}",
+                            IsEnabled = false,
+                        }
+                    );
+                }
             }
         }
     }

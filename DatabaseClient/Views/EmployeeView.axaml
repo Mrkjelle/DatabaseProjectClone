@@ -43,6 +43,11 @@
             <ContextMenu>
                 <MenuItem Header="Edit Employee" Click="OnEditEmployeeClick" />
                 <MenuItem Header="Delete Employee" Click="OnDeleteEmployeeClick" />
+                <MenuItem Header="Assign to Project" SubmenuOpened="OnAssignProjectSubmenuOpened">
+                <MenuItem.Items>
+                    <MenuItem Header="Loading..." IsEnabled="False"/>
+                </MenuItem.Items>
+                </MenuItem>
             </ContextMenu>
         </DataGrid.ContextMenu>
         </DataGrid>

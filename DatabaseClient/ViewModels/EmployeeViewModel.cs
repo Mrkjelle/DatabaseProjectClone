@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using DatabaseClient.Data;
 using DatabaseClient.Models.Org;
 using DatabaseClient.Utilities;
@@ -14,7 +15,6 @@ public class EmployeeViewModel : INotifyPropertyChanged
     public ObservableCollection<Division> Divisions { get; } = new();
     private Division? _selectedDivision;
     public Division? SelectedDivision
-
     {
         get => _selectedDivision;
         set
@@ -52,13 +52,27 @@ public class EmployeeViewModel : INotifyPropertyChanged
     private void OnPropertyChanged(string? name = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
+    private bool _isEditing;
+    public bool IsEditing
+    {
+        get => _isEditing;
+        set
+        {
+            if (_isEditing != value)
+            {
+                _isEditing = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public EmployeeViewModel()
     {
         LoadEmployees();
         LoadDivisions();
     }
 
-    private void LoadEmployees()
+    public void LoadEmployees()
     {
         try
         {
@@ -96,6 +110,7 @@ public class EmployeeViewModel : INotifyPropertyChanged
             Console.WriteLine($"Error loading divisions: {ex.Message}");
         }
     }
+
     public void DeleteEmployee(Employee emp)
     {
         try
@@ -117,5 +132,27 @@ public class EmployeeViewModel : INotifyPropertyChanged
         {
             Console.WriteLine($"Error deleting employee: {ex.Message}");
         }
+    }
+
+    public void EditEmployee(Employee emp)
+    {
+        if (emp == null)
+            return;
+
+        NewEmployee = new Employee
+        {
+            EmpID = emp.EmpID,
+            EmployeeNO = emp.EmployeeNO,
+            FirstName = emp.FirstName,
+            LastName = emp.LastName,
+            Email = emp.Email,
+            DivisionID = emp.DivisionID,
+            HireDate = emp.HireDate,
+        };
+
+        SelectedDivision = Divisions.FirstOrDefault(d => d.DivisionID == emp.DivisionID);
+
+        IsEditing = true;
+        ShowAddEmployeeForm = true;
     }
 }

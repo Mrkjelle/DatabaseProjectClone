@@ -148,4 +148,36 @@ public class OrgRepository : BaseRepository
             throw;
         }
     }
+    public void UpdateEmployee(Employee emp)
+    {
+        EnsureConnection();
+        try
+        {
+            var parameters = new[]
+            {
+                new SqlParameter("@EmpID", emp.EmpID),
+                new SqlParameter("@EmployeeNO", emp.EmployeeNO),
+                new SqlParameter("@FirstName", emp.FirstName),
+                new SqlParameter("@LastName", emp.LastName),
+                new SqlParameter("@Email", emp.Email),
+                new SqlParameter("@DivisionID", emp.DivisionID),
+                new SqlParameter("@HireDate", emp.HireDate),
+            };
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "UpdateEmployee",
+                parameters
+            );
+        }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw;
+        }
+    }
 }

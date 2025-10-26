@@ -10,7 +10,7 @@ namespace DatabaseClient.Data;
 public class ProjectRepository : BaseRepository
 {
     public ProjectRepository()
-        : base(ConfigService.GetConnection("ProjectDB")) { }
+        : base(ConfigService.GetConnection("OrgDB")) { }
 
     public List<Project> GetProjects()
     {

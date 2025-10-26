@@ -181,4 +181,28 @@ public class OrgRepository : BaseRepository
             throw;
         }
     }
+
+    public void DeleteDivisionAndDependencies(int divisionID)
+    {
+        EnsureConnection();
+        try
+        {
+            var parameters = new[] { new SqlParameter("@DivisionID", divisionID) };
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "DeleteDivisionAndDependencies",
+                parameters
+            );
+        }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw;
+        }
+    }
 }

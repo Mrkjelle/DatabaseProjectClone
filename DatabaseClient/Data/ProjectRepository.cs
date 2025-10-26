@@ -176,4 +176,65 @@ public class ProjectRepository : BaseRepository
             throw;
         }
     }
+
+    public void AddDivisionToProject(int divisionId, int projectId)
+    {
+        try
+        {
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "AssignDivisionToProject",
+                new SqlParameter("@DivisionFK", divisionId),
+                new SqlParameter("@ProjectFK", projectId)
+            );
+        }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw;
+        }
+    }
+
+    public List<Project> GetAvailableProjectsForDivision(int divisionId)
+    {
+        EnsureConnection();
+        try
+        {
+            var table = SqlServerConnection.ExecuteStoredProcedureTable(
+                _primaryConnectionString,
+                "GetProjectsNotAssignedToDivision",
+                new SqlParameter("@DivisionID", divisionId)
+            );
+
+            return
+            [
+                .. table
+                    .AsEnumerable()
+                    .Select(row => new Project
+                    {
+                        ProjectID = row.Field<int>("ProjectID"),
+                        ProjectCode = row.Field<string>("ProjectCode") ?? string.Empty,
+                        ProjectName = row.Field<string>("ProjectName") ?? string.Empty,
+                        StartDate = row.Field<DateTime>("StartDate"),
+                        EndDate = row.Field<DateTime?>("EndDate"),
+                        Budget = row.Field<decimal>("Budget"),
+                    }),
+            ];
+        }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw;
+        }
+    }
 }

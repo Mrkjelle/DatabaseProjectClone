@@ -21,6 +21,18 @@
             GridLinesVisibility="All"
             HeadersVisibility="All"
             IsReadOnly="True"
-            ItemsSource="{Binding Divisions}" />
+            ItemsSource="{Binding Divisions}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Click="OnEditDivisionClick" Header="Edit Division" />
+                    <MenuItem Click="OnDeleteDivisionClick" Header="Delete Division (Will Delete all Employees!)" />
+                    <MenuItem Header="Assign to Project" SubmenuOpened="OnAssignProjectSubmenuOpened">
+                        <MenuItem.Items>
+                            <MenuItem Header="Loading..." IsEnabled="False" />
+                        </MenuItem.Items>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </UserControl>

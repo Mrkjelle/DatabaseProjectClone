@@ -1,0 +1,28 @@
+<Window
+    x:Class="DatabaseClient.Views.AssignEmployeeDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="300"
+    Height="200"
+    WindowStartupLocation="CenterOwner"
+    CanResize="False"
+    Background="rgba(30,30,30,1)"
+    Title="Assign to Project">
+
+    <StackPanel Margin="20" Spacing="10">
+        <TextBlock 
+            Text="Assign Employee to Project"
+            FontSize="16"
+            FontWeight="Bold"
+            Foreground="White"
+            HorizontalAlignment="Center"/>
+
+        <TextBox x:Name="RoleTextBox" Watermark="Enter Role"/>
+        <TextBox x:Name="HoursTextBox" Watermark="Hours Worked" />
+
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right">
+            <Button x:Name="OkButton" Content="Confirm" Width="80"/>
+            <Button x:Name="CancelButton" Content="Cancel" Width="80"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

@@ -166,13 +166,29 @@ namespace DatabaseClient.Views
                             Tag = proj.ProjectID,
                         };
 
-                        item.Click += (_, _) =>
+                        item.Click += async (_, _) =>
                         {
                             try
                             {
-                                repo.AddEmployeeToProject(emp.EmpID, proj.ProjectID);
+                                var dialog = new AssignEmployeeDialog();
+                                var result = await dialog.ShowDialog<bool>(
+                                    (Window)this.VisualRoot!
+                                );
+
+                                if (!result)
+                                {
+                                    AppStatus.ShowMessage?.Invoke("Assignment cancelled.");
+                                    return;
+                                }
+
+                                var role = dialog.Role;
+                                var hours = dialog.HoursWorked;
+
+                                var repo = new ProjectRepository();
+                                repo.AddEmployeeToProject(emp.EmpID, proj.ProjectID, role, hours);
+
                                 AppStatus.ShowMessage?.Invoke(
-                                    $"Assigned {emp.FirstName} {emp.LastName} to project {proj.ProjectCode}."
+                                    $"Assigned {emp.FirstName} {emp.LastName} to {proj.ProjectCode} as {role} ({hours}h)."
                                 );
                             }
                             catch (Exception ex)
@@ -188,13 +204,7 @@ namespace DatabaseClient.Views
                 }
                 catch (Exception ex)
                 {
-                    assignMenu.Items.Add(
-                        new MenuItem
-                        {
-                            Header = $"Error loading projects: {ex.Message}",
-                            IsEnabled = false,
-                        }
-                    );
+                    AppStatus.ShowMessage?.Invoke($"Error loading projects: {ex.Message}");
                 }
             }
         }

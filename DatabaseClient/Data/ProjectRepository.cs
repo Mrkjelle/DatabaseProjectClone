@@ -145,20 +145,17 @@ public class ProjectRepository : BaseRepository
         }
         return projects;
     }
-    public void AddEmployeeToProject(int empId, int projectId)
+    public void AddEmployeeToProject(int empId, int projectId, string role, decimal hours)
     {
-        EnsureConnection();
         try
         {
-            var parameters = new[]
-            {
-                new SqlParameter("@EmpID", empId),
-                new SqlParameter("@ProjectID", projectId),
-            };
             SqlServerConnection.ExecuteStoredProcedureSimple(
                 _primaryConnectionString,
-                "AddEmployeeToProject",
-                parameters
+                "AddEmployeeProject",
+                new SqlParameter("@EmpFK", empId),
+                new SqlParameter("@ProjectFK", projectId),
+                new SqlParameter("@Role", role),
+                new SqlParameter("@HoursWorked", hours)
             );
         }
         catch (SqlException sqlEx)

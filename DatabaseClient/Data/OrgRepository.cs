@@ -44,10 +44,15 @@ public class OrgRepository : BaseRepository
                     }),
             ];
         }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(ex);
-            throw new DataException("Error retrieving employees.", ex);
+            throw;
         }
     }
 
@@ -75,10 +80,15 @@ public class OrgRepository : BaseRepository
                     }),
             ];
         }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(ex);
-            throw new DataException("Error retrieving divisions.", ex);
+            throw;
         }
     }
 
@@ -103,10 +113,15 @@ public class OrgRepository : BaseRepository
             );
             return Convert.ToInt32(result);
         }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(ex);
-            throw new DataException("Error adding new employee.", ex);
+            throw;
         }
     }
 }

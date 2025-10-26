@@ -28,13 +28,9 @@ public static class SqlServerConnection
             connection.Open();
             command.ExecuteNonQuery();
         }
-        catch (SqlException ex)
+        catch (SqlException)
         {
-            // Log exception (not implemented here)
-            throw new DataException(
-                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureSimple)}.",
-                ex
-            );
+            throw;
         }
     }
 
@@ -65,13 +61,9 @@ public static class SqlServerConnection
 
             return table;
         }
-        catch (SqlException ex)
+        catch (SqlException)
         {
-            // Log exception (not implemented here)
-            throw new DataException(
-                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureTable)}.",
-                ex
-            );
+            throw;
         }
     }
 
@@ -97,13 +89,9 @@ public static class SqlServerConnection
             connection.Open();
             return command.ExecuteReader(CommandBehavior.CloseConnection);
         }
-        catch (SqlException ex)
+        catch (SqlException)
         {
-            // Log exception (not implemented here)
-            throw new DataException(
-                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureReader)}.",
-                ex
-            );
+            throw;
         }
     }
 
@@ -129,13 +117,9 @@ public static class SqlServerConnection
             connection.Open();
             return command.ExecuteScalar();
         }
-        catch (SqlException ex)
+        catch (SqlException)
         {
-            // Log exception (not implemented here)
-            throw new DataException(
-                $"Error executing stored procedure '{storedProcedureName}' via {nameof(ExecuteStoredProcedureScalar)}.",
-                ex
-            );
+            throw;
         }
     }
 
@@ -155,9 +139,8 @@ public static class SqlServerConnection
             conn.Open();
             Console.WriteLine("[Init] Connection pre-warmed successfully.");
         }
-        catch (SqlException ex)
+        catch (SqlException)
         {
-            Console.WriteLine($"[Init Error] Failed to pre-warm connection: {ex.Message}");
             throw;
         }
     }

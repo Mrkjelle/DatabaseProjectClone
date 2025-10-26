@@ -1,6 +1,6 @@
 using System.ComponentModel;
-using Microsoft.VisualBasic;
 using DatabaseClient.Utilities;
+using Microsoft.VisualBasic;
 
 namespace DatabaseClient.ViewModels;
 

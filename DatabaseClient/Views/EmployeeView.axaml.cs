@@ -87,7 +87,9 @@ namespace DatabaseClient.Views
                 }
                 catch (Exception ex)
                 {
-                    AppStatus.ShowMessage?.Invoke($"Error saving employee: {ex.Message}");
+                    var rawMessage = ex.InnerException?.Message ?? ex.Message;
+                    var userMessage = SqlErrorTranslator.Translate(rawMessage);
+                    AppStatus.ShowMessage?.Invoke(userMessage);
                     Console.WriteLine($"Error saving employee: {ex.Message}");
                 }
             }

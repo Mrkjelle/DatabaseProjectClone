@@ -50,5 +50,4 @@ public static class GlobalExceptionHandler
         Report($"Background task exception: {e.Exception.Message}");
         e.SetObserved();
     }
-
 }

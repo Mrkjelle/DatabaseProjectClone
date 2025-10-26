@@ -37,10 +37,15 @@ public class ProjectRepository : BaseRepository
                     }),
             ];
         }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(ex);
-            throw new DataException("Error retrieving projects.", ex);
+            throw;
         }
     }
 
@@ -68,10 +73,15 @@ public class ProjectRepository : BaseRepository
                     }),
             ];
         }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(ex);
-            throw new DataException("Error retrieving employee projects.", ex);
+            throw;
         }
     }
 
@@ -101,10 +111,15 @@ public class ProjectRepository : BaseRepository
                     }),
             ];
         }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(ex);
-            throw new DataException("Error retrieving division projects.", ex);
+            throw;
         }
     }
 }

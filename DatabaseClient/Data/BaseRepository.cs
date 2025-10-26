@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using DatabaseClient.Utilities;
 
 namespace DatabaseClient.Data;
 
@@ -24,6 +25,7 @@ public abstract class BaseRepository
 
     protected virtual void LogError(Exception ex)
     {
+        AppStatus.ShowMessage?.Invoke($"Error: {ex.Message}");
         Console.Error.WriteLine($"[{DateTime.UtcNow}] Error: {ex.Message}");
     }
 

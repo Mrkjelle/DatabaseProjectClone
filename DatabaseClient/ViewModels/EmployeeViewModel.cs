@@ -19,8 +19,12 @@ public class EmployeeViewModel : INotifyPropertyChanged
             if (_selectedDivision != value)
             {
                 _selectedDivision = value;
-                NewEmployee.DivisionID = value?.DivisionID ?? 0;
+                if (NewEmployee != null)
+                {
+                    NewEmployee.DivisionID = value?.DivisionID ?? 0;
+                }
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(NewEmployee));
             }
         }
     }

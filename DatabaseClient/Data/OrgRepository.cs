@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Transactions;
 using DatabaseClient.Models.Org;
+using Microsoft.Data.SqlClient;
 
 namespace DatabaseClient.Data;
 
@@ -78,6 +79,34 @@ public class OrgRepository : BaseRepository
         {
             LogError(ex);
             throw new DataException("Error retrieving divisions.", ex);
+        }
+    }
+
+    public int AddEmployee(Employee emp)
+    {
+        EnsureConnection();
+        try
+        {
+            var parameters = new[]
+            {
+                new SqlParameter("@EmployeeNO", emp.EmployeeNO),
+                new SqlParameter("@FirstName", emp.FirstName),
+                new SqlParameter("@LastName", emp.LastName),
+                new SqlParameter("@Email", emp.Email),
+                new SqlParameter("@DivisionID", emp.DivisionID),
+                new SqlParameter("@HireDate", emp.HireDate),
+            };
+            var result = SqlServerConnection.ExecuteStoredProcedureScalar(
+                _primaryConnectionString,
+                "AddEmployee",
+                parameters
+            );
+            return Convert.ToInt32(result);
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw new DataException("Error adding new employee.", ex);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 
 namespace DatabaseClient.Models.Org;
 
@@ -12,7 +13,6 @@ public class Employee
     public string DivisionCode { get; set; } = string.Empty;
     public int DivisionID { get; set; }
     public DateTime HireDate { get; set; } = DateTime.MinValue;
-
     public Employee() { }
 
     public Employee(
@@ -35,4 +35,5 @@ public class Employee
         DivisionCode = divisionCode;
         HireDate = hireDate;
     }
+    
 }

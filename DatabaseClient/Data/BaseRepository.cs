@@ -6,7 +6,6 @@ namespace DatabaseClient.Data;
 public abstract class BaseRepository
 {
     protected readonly string _primaryConnectionString;
-    protected readonly string? _secondaryConnectionString;
 
     protected BaseRepository(
         string primaryConnectionString,
@@ -16,7 +15,6 @@ public abstract class BaseRepository
         _primaryConnectionString =
             primaryConnectionString
             ?? throw new ArgumentNullException(nameof(primaryConnectionString));
-        _secondaryConnectionString = secondaryConnectionString;
     }
 
     protected void EnsureConnection()
@@ -24,19 +22,6 @@ public abstract class BaseRepository
         if (string.IsNullOrWhiteSpace(_primaryConnectionString))
         {
             throw new InvalidOperationException("Connection string is not initialized.");
-        }
-    }
-
-    protected void EnsureBothConnections()
-    {
-        if (
-            string.IsNullOrWhiteSpace(_primaryConnectionString)
-            || string.IsNullOrWhiteSpace(_secondaryConnectionString)
-        )
-        {
-            throw new InvalidOperationException(
-                "One or both connection strings are not initialized."
-            );
         }
     }
 

@@ -6,26 +6,30 @@
     x:DataType="vm:AssignmentViewModel">
 
     <Grid Background="rgba(30, 30, 30, 1)" RowDefinitions="Auto,*">
-        <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto" Margin="10" VerticalAlignment="Center">
-        <TextBlock
-            Grid.Column="0"
+        <Grid
+            Grid.Row="0"
             Margin="10"
-            FontSize="20"
-            FontWeight="Bold"
-            Foreground="rgba(180, 21, 29, 1)"
-            Text="Employee Assignments"
-            VerticalAlignment="Center" />
-        
-        <Button
-            Grid.Column="1"
-            Margin="10,10,20,10"
-            Padding="8,4"
-            Background="rgba(180, 21, 29, 1)"
-            Foreground="White"
-            BorderBrush="rgba(180,21,29,1)"
-            Content="Switch to Division Assignments"
-            Click="OnSwitchToDivisionAssignments"
-            VerticalAlignment="Center" />
+            VerticalAlignment="Center"
+            ColumnDefinitions="Auto,Auto">
+            <TextBlock
+                Grid.Column="0"
+                Margin="10"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="rgba(180, 21, 29, 1)"
+                Text="{Binding HeaderTitle}" />
+
+            <Button
+                Grid.Column="1"
+                Margin="10,10,20,10"
+                Padding="8,4"
+                VerticalAlignment="Center"
+                Background="rgba(180, 21, 29, 1)"
+                BorderBrush="rgba(180,21,29,1)"
+                Click="OnSwitchToDivisionAssignments"
+                Content="{Binding ToggleButtonText}"
+                Foreground="White" />
         </Grid>
 
         <DataGrid
@@ -37,16 +41,19 @@
             GridLinesVisibility="All"
             HeadersVisibility="All"
             IsReadOnly="True"
-            ItemsSource="{Binding EmployeeAssignments}"
-            IsVisible="{Binding !ShowDivisionAssignments}" />
-        
+            IsVisible="{Binding !ShowDivisionAssignments}"
+            ItemsSource="{Binding EmployeeAssignments}" />
+
         <DataGrid
             x:Name="DivisionAssignmentGrid"
             Grid.Row="1"
             Margin="10"
             AutoGenerateColumns="True"
+            AutoGeneratingColumn="OnAutoGeneratingColumn"
+            GridLinesVisibility="All"
+            HeadersVisibility="All"
             IsReadOnly="True"
-            ItemsSource="{Binding DivisionAssignments}"
-            IsVisible="{Binding ShowDivisionAssignments}" />
+            IsVisible="{Binding ShowDivisionAssignments}"
+            ItemsSource="{Binding DivisionAssignments}" />
     </Grid>
 </UserControl>

@@ -28,10 +28,11 @@ public class AssignmentViewModel : INotifyPropertyChanged
             {
                 _showDivisionAssignments = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(HeaderTitle));
+                OnPropertyChanged(nameof(ToggleButtonText));
             }
         }
     }
-
     public AssignmentViewModel()
     {
         LoadEmployeeAssignments();

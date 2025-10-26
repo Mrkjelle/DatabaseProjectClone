@@ -8,7 +8,7 @@
     <Grid Background="rgba(30, 30, 30, 1)" RowDefinitions="Auto,*">
         <Grid
             Grid.Row="0"
-            Margin="10"
+            Margin="0,0,10,0"
             VerticalAlignment="Center"
             ColumnDefinitions="Auto,Auto">
             <TextBlock

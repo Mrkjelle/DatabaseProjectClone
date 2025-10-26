@@ -1,57 +1,36 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Global Button style -->
+    <!-- Base button style override -->
     <Style Selector="Button">
-        <Setter Property="Background" Value="#B4151D"/> <!-- deep red -->
+        <Setter Property="Background" Value="#B4151D"/>     <!-- default red -->
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderBrush" Value="#B4151D"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Padding" Value="8,4"/>
         <Setter Property="Margin" Value="4"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        
-        <!-- Hover + Press states -->
-        <Style.Resources>
-            <SolidColorBrush x:Key="ButtonHoverBrush" Color="#D72638"/>
-            <SolidColorBrush x:Key="ButtonPressedBrush" Color="#8E1018"/>
-        </Style.Resources>
+    </Style>
 
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}">
-                    <ContentPresenter
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Margin="{TemplateBinding Padding}"
-                        RecognizesAccessKey="True"/>
-                </Border>
-            </ControlTemplate>
-        </Setter>
+    <!-- Hover -->
+    <Style Selector="Button:pointerover">
+        <Setter Property="Background" Value="#D72638"/>
+        <Setter Property="BorderBrush" Value="#D72638"/>
+    </Style>
 
-        <Style.Triggers>
-            <Setter Property="Background" Value="{StaticResource ButtonHoverBrush}">
-                <Setter.Value>
-                    <SolidColorBrush Color="#D72638"/>
-                </Setter.Value>
-                <Setter.Property>Button:pointerover</Setter.Property>
-            </Setter>
+    <!-- Pressed -->
+    <Style Selector="Button:pressed">
+        <Setter Property="Background" Value="#8E1018"/>
+        <Setter Property="BorderBrush" Value="#8E1018"/>
+    </Style>
 
-            <Setter Property="Background" Value="{StaticResource ButtonPressedBrush}">
-                <Setter.Value>
-                    <SolidColorBrush Color="#8E1018"/>
-                </Setter.Value>
-                <Setter.Property>Button:pressed</Setter.Property>
-            </Setter>
-        </Style.Triggers>
+    <!-- Disabled -->
+    <Style Selector="Button:disabled">
+        <Setter Property="Opacity" Value="0.6"/>
     </Style>
 </Styles>

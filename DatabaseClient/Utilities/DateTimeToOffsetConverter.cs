@@ -1,27 +1,35 @@
 using System;
-using Avalonia.Data.Converters;
 using System.Globalization;
+using Avalonia.Data.Converters;
 
 namespace DatabaseClient.Utilities
 {
     public class DateTimeToOffsetConverter : IValueConverter
     {
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(
+            object? value,
+            Type targetType,
+            object? parameter,
+            CultureInfo culture
+        )
         {
-            if (value is DateTime dt)
-            {
-                if (dt == DateTime.MinValue || dt == default)
-                    return null; // skip invalid defaults
-                return new DateTimeOffset(dt, TimeSpan.Zero);
-            }
-            return null;
+            if (value is DateOnly date)
+                return new DateTimeOffset(date.ToDateTime(TimeOnly.MinValue));
+
+            return value;
         }
 
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        public object? ConvertBack(
+            object? value,
+            Type targetType,
+            object? parameter,
+            CultureInfo culture
+        )
         {
             if (value is DateTimeOffset dto)
-                return dto.DateTime;
-            return null;
+                return DateOnly.FromDateTime(dto.DateTime);
+
+            return value;
         }
     }
 }

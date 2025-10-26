@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using DatabaseClient.Data;
 using DatabaseClient.Models.Org;
+using DatabaseClient.Utilities;
+using Microsoft.Data.SqlClient;
 
 namespace DatabaseClient.ViewModels;
 
@@ -12,6 +14,7 @@ public class EmployeeViewModel : INotifyPropertyChanged
     public ObservableCollection<Division> Divisions { get; } = new();
     private Division? _selectedDivision;
     public Division? SelectedDivision
+
     {
         get => _selectedDivision;
         set
@@ -91,6 +94,28 @@ public class EmployeeViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading divisions: {ex.Message}");
+        }
+    }
+    public void DeleteEmployee(Employee emp)
+    {
+        try
+        {
+            var repo = new OrgRepository();
+            repo.DeleteEmployee(emp.EmpID);
+            Employees.Remove(emp);
+            AppStatus.ShowMessage?.Invoke(
+                $"Employee {emp.FirstName} {emp.LastName} deleted successfully."
+            );
+        }
+        catch (SqlException sqlEx)
+        {
+            var userMessage = SqlErrorTranslator.Translate(sqlEx.Message);
+            AppStatus.ShowMessage?.Invoke($"Error deleting employee: {userMessage}");
+            Console.WriteLine($"SQL Error deleting employee: {sqlEx.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting employee: {ex.Message}");
         }
     }
 }

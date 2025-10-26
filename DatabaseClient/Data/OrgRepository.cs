@@ -124,4 +124,28 @@ public class OrgRepository : BaseRepository
             throw;
         }
     }
+
+    public void DeleteEmployee(int empID)
+    {
+        EnsureConnection();
+        try
+        {
+            var parameters = new[] { new SqlParameter("@EmpID", empID) };
+            SqlServerConnection.ExecuteStoredProcedureSimple(
+                _primaryConnectionString,
+                "DeleteEmployee",
+                parameters
+            );
+        }
+        catch (SqlException sqlEx)
+        {
+            LogError(sqlEx);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+            throw;
+        }
+    }
 }

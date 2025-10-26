@@ -57,7 +57,7 @@ namespace DatabaseClient.Views
         {
             if (DataContext is EmployeeViewModel vm)
             {
-                vm.NewEmployee = new Employee();
+                vm.NewEmployee = new Employee { HireDate = DateTime.Today };
                 vm.ShowAddEmployeeForm = true;
             }
         }
@@ -89,9 +89,23 @@ namespace DatabaseClient.Views
                 {
                     var rawMessage = ex.InnerException?.Message ?? ex.Message;
                     var userMessage = SqlErrorTranslator.Translate(rawMessage);
-                    AppStatus.ShowMessage?.Invoke(userMessage);
+                    AppStatus.ShowMessage?.Invoke($"Error saving employee: {userMessage}");
                     Console.WriteLine($"Error saving employee: {ex.Message}");
                 }
+            }
+        }
+
+        private void OnEditEmployeeClick(object? sender, RoutedEventArgs e) { }
+
+        private void OnDeleteEmployeeClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is EmployeeViewModel vm && EmployeeGrid.SelectedItem is Employee emp)
+            {
+                vm.DeleteEmployee(emp);
+            }
+            else
+            {
+                AppStatus.ShowMessage?.Invoke("No employee selected for deletion.");
             }
         }
     }

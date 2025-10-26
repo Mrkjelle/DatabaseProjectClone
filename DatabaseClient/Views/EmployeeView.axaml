@@ -38,7 +38,14 @@
             AutoGeneratingColumn="OnAutoGeneratingColumn"
             IsReadOnly="True"
             IsVisible="{Binding ShowEmployeeGrid}"
-            ItemsSource="{Binding Employees}" />
+            ItemsSource="{Binding Employees}" >
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit Employee" Click="OnEditEmployeeClick" />
+                <MenuItem Header="Delete Employee" Click="OnDeleteEmployeeClick" />
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        </DataGrid>
 
         <Border
             Grid.Row="1"
@@ -71,7 +78,7 @@
                     FontSize="14"
                     Foreground="White"
                     Text="Enter Employee Start Date" />
-                <DatePicker SelectedDate="{Binding NewEmployee.HireDate, Converter={StaticResource DateTimeToOffsetConverter}}" />
+                <DatePicker SelectedDate="{Binding NewEmployee.HireDate, Converter={StaticResource DateTimeToOffsetConverter}, Mode=TwoWay}" />
                 <StackPanel
                     Margin="0,10,0,0"
                     Orientation="Horizontal"

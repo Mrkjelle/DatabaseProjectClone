@@ -13,7 +13,11 @@ public static class SqlErrorTranslator
         { "UQ_Email", "This email address is already registered to another employee." },
         { "FK_Employee_Division", "Please select a valid division before saving the employee." },
         { "UQ_EmployeeNO", "That employee number already exists in the system." },
-        // generic SQL errors
+        { "SqlDateTime overflow", "Please select a valid start date for the employee." },
+        { "CK_HireDate_NotFuture", "Hire date cannot be in the future." },
+        { "CK_EmployeeNO_Format", "Employee number cannot be empty or contain spaces." },
+        { "CK_Name_NotEmpty", "First and last name cannot be empty or only spaces." },
+        // general messages
         { "FOREIGN KEY constraint", "You're referencing something that doesn't exist." },
         { "CHECK constraint", "The provided data failed one of the validation rules." },
         { "UNIQUE KEY constraint", "Duplicate value detected — this must be unique." },
